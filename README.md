@@ -5,7 +5,7 @@
 
 Translation-layer engineering: the seam where an existing estate meets modern AI, in whatever language that estate already speaks.
 
-Thirty years across federal, defense and healthcare systems, including DHA TRICARE and DIA. TS/SCI with CI polygraph.
+Thirty years across federal, defense and healthcare systems, including DHA TRICARE and DIA. Previously held TS/SCI with Full scope polygraph.
 
 Every repository below says what it proves and names the command, gate or artifact that proves it. The claims on this page are resolved against those repositories by a check that runs weekly.
 

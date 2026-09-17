@@ -54,4 +54,4 @@ A hostile driver replaces the model and attempts every forbidden state change it
 
 ---
 
-The private work is client code and stays off this page. Everything public has a card, and a check reads the account rather than a list kept here, so a repository going public without one is a gap that fails rather than a thing somebody has to remember.
+The private work is client code and stays off this page. Every other public repository has a card, this one excepted, since a card pointing at the page it is printed on says nothing. The set is read from the account rather than from a list kept here, so a repository going public without a card is a gap that fails rather than a thing somebody has to remember.

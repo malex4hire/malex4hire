@@ -197,3 +197,53 @@ would never have seen it - only the batch, looking at both, did.
 
 Reproduced with a value that is a prefix of a real token, which is what a renumber looks
 like from this side: red, naming the file. All real bindings still resolve.
+
+---
+
+## 2026-09-17 - the fixes were landed in the decision log instead of in tests/
+
+**The review's first finding is the one that matters and it is a ROOT RULE violation in
+work landed an hour earlier.** Both controls in the previous entry - the argv refusal and
+the bounded binding match - had no check. `main()` was invoked by no test, and every real
+binding resolves under both the bare substring and the boundary, so the regex change was
+unobservable from the suite. **Mutated: `unknown = []` and `if value not in haystack`, both
+reverted, `pytest tests` -> 9 passed.** Two fixes, both decoration.
+
+**The cause is exact and worth keeping: the defects were reproduced at the console and the
+reproduction was written HERE instead of into `tests/`.** A decision log cannot fire. The
+class was named in a commit message, in this file, and in a test docstring, and enforced in
+none of the three. Both are now tested and both mutations go red.
+
+**The argv guard closed the misspelling and left the omission open.** Refusing `--checkk`
+does nothing about `--check` being DELETED from the recipe, which is the same one-token
+edit and restores the same bug: the page rendered on the runner before the test asserts it
+reproduces. **The guard was anchored to the flag's spelling rather than to the invariant -
+this process must not write in CI.** A test now reads `cards.yml` and fails if the renderer
+is invoked there without `--check`. Mutated by deleting the token: red.
+
+**The `abyss-write-gate` card took the `states` escape hatch where the strict default
+passes.** The commit message justified it as "stated in that repository's README", and that
+premise was false: its `Makefile` contains the literal `make demo` twice. The opt-out is
+removed and the binding resolves against the `Makefile`. **This is the mirror of the
+finding above** - the test file's own comment warns that a README fallback dissolves the
+rename check, and the next card adopted it anyway, in the one case where it was not needed.
+
+**The footer asserted a property the check it cites exempts.** It read "Everything public
+has a card"; `test_there_is_one_card_per_public_repository` subtracts the profile repository
+itself, which is public and carded by nothing. The exemption is right - a card pointing at
+the page it is printed on says nothing - and the sentence claiming otherwise was the one
+unbound claim on a page whose whole premise is that every claim is resolved. The footer now
+states the exemption. It is in scope for the superlative check, so it was never unchecked
+prose; nothing checked *that* property, and nothing does now either, which is said here
+rather than left implied.
+
+### Considered and declined
+
+**The boundary excludes `[\w-]` and not `.`, so `R-8` would resolve against `R-8.1`.**
+Real, and narrower than the `R-8`/`R-80` case already closed. Not taken: adding `.` to the
+exclusion would reject a value legitimately followed by a full stop - `uvicorn
+app.main:app --reload` at the end of a sentence in a target README is exactly that shape -
+and **a check with a false positive gets disabled by whoever trusts it next**, which costs
+more than the sub-numbering case it would catch. The reviewer's own confidence that
+sub-numbering is a convention here was low. Recorded so the next reader sees a decision
+rather than an oversight.

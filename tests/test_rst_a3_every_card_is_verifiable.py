@@ -66,6 +66,17 @@ TIMEOUT = 30
 # readers
 # ---------------------------------------------------------------------------
 
+def _bounded(value: str) -> re.Pattern:
+    """A binding's value, matched on its own rather than as a substring.
+
+    `R-8` is inside `R-80`, so renumbering a gate in the target repository would leave the
+    card resolving forever while printing an identifier that no longer exists. One
+    definition, shared by the check and by the test that proves it fires - the first
+    version of this lived inline in the check and nothing exercised it.
+    """
+    return re.compile(rf"(?<![\w-]){re.escape(value)}(?![\w-])")
+
+
 def profile() -> dict:
     if not PROFILE.is_file():
         pytest.fail(f"MISSING INPUT: {PROFILE.name} not found; it is the page's source")
@@ -229,8 +240,7 @@ def test_every_binding_exists_in_the_repository_the_card_points_at():
             # is for. The sibling commit-history check was given this boundary an hour
             # earlier and this one was not, which is the same defect class twice in two
             # files.
-            bounded = re.compile(rf"(?<![\w-]){re.escape(value)}(?![\w-])")
-            if not bounded.search(haystack) and value != path:
+            if not _bounded(value).search(haystack) and value != path:
                 problems.append(
                     f"{name}: the card prints `{value}` and {where} does not contain it"
                 )
@@ -304,3 +314,86 @@ def test_adding_a_card_leaves_the_positioning_and_the_layout_untouched():
         "is a layout that stops being maintained"
     )
     assert after != before, "the extra card did not render at all, so this proved nothing"
+
+
+# ---------------------------------------------------------------------------
+# The controls this file's own fixes added. Landed here because they were landed
+# in DECISIONS.md instead, which is not a place a check can fire from: a review
+# mutated both and the suite stayed green, so both were decoration.
+# ---------------------------------------------------------------------------
+
+def test_render_refuses_an_argument_it_does_not_recognise():
+    """A misspelt flag must not fall through to the write path.
+
+    `--checkk` once re-rendered the page, discarded a hand edit and exited 0, so the CI
+    step was one character from the bug that flag exists to prevent. The assertion that
+    matters is the second one: the edit SURVIVES. An exit code alone would pass for a
+    version that refused the flag and wrote the file anyway.
+    """
+    render = renderer()
+    if not README.is_file():
+        pytest.fail("MISSING INPUT: README.md has not been rendered")
+
+    before = README.read_text(encoding="utf-8")
+    marker = "\n<!-- a hand edit that skipped the bindings -->\n"
+    README.write_text(before + marker, encoding="utf-8")
+    try:
+        for argument in ("--checkk", "-c", "--help", "--check-drift"):
+            code = render.main([argument])
+            assert code == 2, (
+                f"`{argument}` returned {code}; anything but --check must be refused, or a "
+                "typo in the workflow silently restores the write path"
+            )
+            assert marker in README.read_text(encoding="utf-8"), (
+                f"`{argument}` rewrote README.md. A refused argument must not write: that "
+                "is the whole reason --check exists"
+            )
+        assert render.main(["--check"]) == 1, "--check must fail on a drifted page"
+    finally:
+        README.write_text(before, encoding="utf-8")
+
+    assert render.main(["--check"]) == 0, "--check must pass on the committed page"
+
+
+def test_the_workflow_verifies_the_page_and_does_not_rewrite_it():
+    """The invariant is "this process must not write in CI", not the flag's spelling.
+
+    Refusing `--checkk` does nothing about `--check` being DELETED from the recipe, which
+    is the same one-token edit and puts the page back to being rendered on the runner
+    before the test asserts it reproduces. So the recipe itself is read.
+    """
+    workflow = ROOT / ".github" / "workflows" / "cards.yml"
+    if not workflow.is_file():
+        pytest.fail(f"MISSING INPUT: {workflow.name}, which is what runs these checks")
+
+    invocations = [
+        line.strip() for line in workflow.read_text(encoding="utf-8").splitlines()
+        if "render_readme.py" in line
+    ]
+    assert invocations, (
+        "the workflow never invokes the renderer, so nothing there verifies the page"
+    )
+    writing = [line for line in invocations if "--check" not in line]
+    assert not writing, (
+        "the workflow invokes the renderer without --check, so it rewrites README.md on "
+        "the runner before the reproduction test looks at it:\n  " + "\n  ".join(writing)
+    )
+
+
+def test_a_binding_value_is_matched_with_a_boundary():
+    """`R-8` must not resolve against a haystack that only contains `R-80`.
+
+    The boundary was applied to the sibling commit-history check and not to this one, and
+    then landed here with no test, so reverting it to a bare substring left the suite green.
+    """
+    bounded = _bounded("R-8")
+    assert not bounded.search('"""R-80: the demo runs on a bare interpreter.'), (
+        "a renumbered gate still resolves; the card would print an identifier that no "
+        "longer exists"
+    )
+    assert bounded.search('"""R-8: the demo runs on a bare interpreter.'), (
+        "the boundary rejects the identifier it is supposed to match"
+    )
+    assert _bounded("make demo").search("\tmake demo\n"), (
+        "a value surrounded by whitespace must still match"
+    )

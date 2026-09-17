@@ -13,17 +13,17 @@ Every repository below says what it proves and names the command, gate or artifa
 
 <!-- cards: generated from profile.yaml, one per public repository -->
 
-### [abyss-polyglot](https://github.com/malex4hire/abyss-polyglot)
+### [abyss-write-gate](https://github.com/malex4hire/abyss-write-gate)
 
-**One contract. Several runtimes. One suite that names none of them.**
+**A compromised agent attacks its own write boundary, and the misses are published too.**
 
-One OpenAPI contract, served by JVM and Python backends and consumed by two frontend frameworks, with one test suite that runs unmodified against all of them and names none of them. Identity is read from the live classpath rather than from a label, so the stacks cannot be mislabelled and pass. It runs from a single command on a bare interpreter, with nothing installed.
+A hostile driver replaces the model and attempts every forbidden state change it can reach against an approval workflow; a deterministic gate at the write boundary refuses them and no forbidden mutation lands. The part usually left out is committed beside it: the cases the gate does NOT catch, generated from the same run rather than written up afterwards, with a test asserting the missed set is non-empty on the grounds that a gate with no published blind spot has not been probed hard enough.
 
 | | what it is | where it lives |
 |---|---|---|
-| run | `python3 demo.py` | [demo.py](https://github.com/malex4hire/abyss-polyglot/blob/main/demo.py) |
-| gate | `R-8` | [tests/test_r08_the_demo_runs_on_a_bare_interpreter.py](https://github.com/malex4hire/abyss-polyglot/blob/main/tests/test_r08_the_demo_runs_on_a_bare_interpreter.py) |
-| artifact | `contract/openapi.yaml` | [contract/openapi.yaml](https://github.com/malex4hire/abyss-polyglot/blob/main/contract/openapi.yaml) |
+| run | `make demo` | [Makefile](https://github.com/malex4hire/abyss-write-gate/blob/main/Makefile) |
+| gate | `RST-C5` | [tests/test_rst_c5_known_miss_register.py](https://github.com/malex4hire/abyss-write-gate/blob/main/tests/test_rst_c5_known_miss_register.py) |
+| artifact | `docs/KNOWN-MISSES.md` | [docs/KNOWN-MISSES.md](https://github.com/malex4hire/abyss-write-gate/blob/main/docs/KNOWN-MISSES.md) |
 
 ### [interview-eval-platform](https://github.com/malex4hire/interview-eval-platform)
 
@@ -38,17 +38,17 @@ An LLM scores interview answers against a rubric, and anything below a confidenc
 | gate | `test_ambiguous_answer_routes_to_human_review` | [tests/test_evaluation.py](https://github.com/malex4hire/interview-eval-platform/blob/main/tests/test_evaluation.py) |
 | artifact | `app/domain/hashing.py` | [app/domain/hashing.py](https://github.com/malex4hire/interview-eval-platform/blob/main/app/domain/hashing.py) |
 
-### [abyss-write-gate](https://github.com/malex4hire/abyss-write-gate)
+### [abyss-polyglot](https://github.com/malex4hire/abyss-polyglot)
 
-**A compromised agent attacks its own write boundary, and the misses are published too.**
+**One contract. Several runtimes. One suite that names none of them.**
 
-A hostile driver replaces the model and attempts every forbidden state change it can reach against an approval workflow; a deterministic gate at the write boundary refuses them and no forbidden mutation lands. The part usually left out is committed beside it: the cases the gate does NOT catch, generated from the same run rather than written up afterwards, with a test asserting the missed set is non-empty on the grounds that a gate with no published blind spot has not been probed hard enough.
+One OpenAPI contract, served by JVM and Python backends and consumed by two frontend frameworks, with one test suite that runs unmodified against all of them and names none of them. Identity is read from the live classpath rather than from a label, so the stacks cannot be mislabelled and pass. It runs from a single command on a bare interpreter, with nothing installed.
 
 | | what it is | where it lives |
 |---|---|---|
-| run | `make demo` | [Makefile](https://github.com/malex4hire/abyss-write-gate/blob/main/Makefile) |
-| gate | `RST-C5` | [tests/test_rst_c5_known_miss_register.py](https://github.com/malex4hire/abyss-write-gate/blob/main/tests/test_rst_c5_known_miss_register.py) |
-| artifact | `docs/KNOWN-MISSES.md` | [docs/KNOWN-MISSES.md](https://github.com/malex4hire/abyss-write-gate/blob/main/docs/KNOWN-MISSES.md) |
+| run | `python3 demo.py` | [demo.py](https://github.com/malex4hire/abyss-polyglot/blob/main/demo.py) |
+| gate | `R-8` | [tests/test_r08_the_demo_runs_on_a_bare_interpreter.py](https://github.com/malex4hire/abyss-polyglot/blob/main/tests/test_r08_the_demo_runs_on_a_bare_interpreter.py) |
+| artifact | `contract/openapi.yaml` | [contract/openapi.yaml](https://github.com/malex4hire/abyss-polyglot/blob/main/contract/openapi.yaml) |
 
 <!-- /cards -->
 

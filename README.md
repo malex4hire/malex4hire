@@ -38,8 +38,20 @@ An LLM scores interview answers against a rubric, and anything below a confidenc
 | gate | `test_ambiguous_answer_routes_to_human_review` | [tests/test_evaluation.py](https://github.com/malex4hire/interview-eval-platform/blob/main/tests/test_evaluation.py) |
 | artifact | `app/domain/hashing.py` | [app/domain/hashing.py](https://github.com/malex4hire/interview-eval-platform/blob/main/app/domain/hashing.py) |
 
+### [abyss-write-gate](https://github.com/malex4hire/abyss-write-gate)
+
+**A compromised agent attacks its own write boundary, and the misses are published too.**
+
+A hostile driver replaces the model and attempts every forbidden state change it can reach against an approval workflow; a deterministic gate at the write boundary refuses them and no forbidden mutation lands. The part usually left out is committed beside it: the cases the gate does NOT catch, generated from the same run rather than written up afterwards, with a test asserting the missed set is non-empty on the grounds that a gate with no published blind spot has not been probed hard enough.
+
+| | what it is | where it lives |
+|---|---|---|
+| run | `make demo` | [Makefile](https://github.com/malex4hire/abyss-write-gate/blob/main/Makefile) |
+| gate | `RST-C5` | [tests/test_rst_c5_known_miss_register.py](https://github.com/malex4hire/abyss-write-gate/blob/main/tests/test_rst_c5_known_miss_register.py) |
+| artifact | `docs/KNOWN-MISSES.md` | [docs/KNOWN-MISSES.md](https://github.com/malex4hire/abyss-write-gate/blob/main/docs/KNOWN-MISSES.md) |
+
 <!-- /cards -->
 
 ---
 
-Two repositories are not yet here: one is unpublished, and the private work is client code. Both get a card when they can carry one.
+The private work is client code and stays off this page. Everything public has a card, and a check reads the account rather than a list kept here, so a repository going public without one is a gap that fails rather than a thing somebody has to remember.

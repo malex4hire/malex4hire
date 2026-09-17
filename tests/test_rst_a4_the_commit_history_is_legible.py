@@ -129,9 +129,23 @@ def test_every_constraint_with_a_check_has_a_commit_that_names_it():
 def test_every_constraint_has_a_commit_of_its_own():
     """One commit per constraint, and a banner naming all of them is not one of them.
 
-    This is the assertion that forbids a squash. Counting commits that mention any
-    identifier does not: a review showed three subjects each naming all three constraints
-    clearing a cardinality test while no constraint had a commit to itself.
+    **What this asserts, exactly:** every constraint has at least one commit, anywhere in
+    reachable history, whose subject names it and no other. Counting commits that mention
+    any identifier does not do that - a review showed three subjects each naming all three
+    constraints clearing a cardinality test while no constraint had a commit to itself.
+
+    **What it does NOT assert, said here rather than left to be discovered.** It grades all
+    of history, so a constraint is satisfied permanently by one past sole-naming commit.
+    Squash a later branch into a banner subject and this stays green, because the earlier
+    commits are still reachable. Only a constraint that is NEW to the set can turn it red.
+
+    That limit is accepted rather than closed, for a reason and not for convenience. The
+    alternative is a range against `origin/main`, which is empty the moment the branch
+    merges and would leave the check green forever for the wrong reason - a worse failure,
+    and the one this file was written to avoid. Squashing commits that have already landed
+    means rewriting history, which is forbidden here by a separate standing order; this is
+    not the instrument for catching that, and pretending otherwise would be the overstated
+    claim the review found in the first draft of this docstring.
     """
     owed = _owed()
     naming = _naming()

@@ -61,6 +61,28 @@ cards:
         value: "app/domain/hashing.py"
         path: "app/domain/hashing.py"
 
+  abyss-write-gate:
+    line: "A compromised agent attacks its own write boundary, and the misses are published too."
+    proves: >-
+      A hostile driver replaces the model and attempts every forbidden state change it can
+      reach against an approval workflow; a deterministic gate at the write boundary
+      refuses them and no forbidden mutation lands. The part usually left out is committed
+      beside it: the cases the gate does NOT catch, generated from the same run rather than
+      written up afterwards, with a test asserting the missed set is non-empty on the
+      grounds that a gate with no published blind spot has not been probed hard enough.
+    bindings:
+      - kind: command
+        value: "make demo"
+        path: "Makefile"
+        states: "README.md"
+      - kind: gate
+        value: "RST-C5"
+        path: "tests/test_rst_c5_known_miss_register.py"
+      - kind: artifact
+        value: "docs/KNOWN-MISSES.md"
+        path: "docs/KNOWN-MISSES.md"
+
 footer: >-
-  Two repositories are not yet here: one is unpublished, and the private work is client
-  code. Both get a card when they can carry one.
+  The private work is client code and stays off this page. Everything public has a card,
+  and a check reads the account rather than a list kept here, so a repository going public
+  without one is a gap that fails rather than a thing somebody has to remember.

@@ -132,3 +132,39 @@ disabled by whoever trusts it next.
 Closed by marking the region explicitly in the renderer (`CARDS_OPEN` / `CARDS_CLOSE`, HTML
 comments a reader never sees) and slicing on those. With the footer removed the test now
 passes, which is the correct answer.
+
+---
+
+## 2026-09-17 - abyss-write-gate went public, and the check found it rather than a person
+
+The ICG anticipated this as a forward requirement: *"The profile README will require one
+update when abyss-write-gate is published."* It was published by another session while this
+branch was in review, and **nobody told this repository.** The completeness check read the
+account, compared it to the cards, and failed naming the repository.
+
+That is the design working as intended and it is worth recording as evidence rather than as
+a claim: a list of repositories kept in this repository would have gone stale silently and
+the page would have quietly become incomplete.
+
+**Adding the card was an edit to `profile.yaml` and nothing else** - the positioning and the
+layout were untouched, which is the other half of the forward requirement. The footer was
+changed deliberately, because it said one repository was unpublished and that is no longer
+true.
+
+**Its three bindings resolve against `main`:** `make demo` (stated in that repository's
+README, so the binding says so), gate `RST-C5` in
+`tests/test_rst_c5_known_miss_register.py`, and the artifact `docs/KNOWN-MISSES.md`.
+
+**What the card deliberately does not repeat: the counts.** That repository's README leads
+with `24 cases / 8 classes / 20 caught / 4 missed`, and those are real and generated. They
+are also numbers that move with every run, and a card restating them is a second copy that
+goes stale - the exact defect this page exists to refuse. The card says the missed set is
+published and non-empty by assertion, and names the register.
+
+## 2026-09-17 - the anti-squash docstring here claimed more than the assertion does
+
+Same correction as the sibling copy. The check grades all of reachable history, so a
+constraint is satisfied permanently by one past sole-naming commit and only a constraint new
+to the set can turn it red. Stated in the docstring, with why the branch-range alternative
+is worse: it is empty the moment the branch merges and would be green forever for the wrong
+reason.

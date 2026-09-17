@@ -39,9 +39,10 @@ cards:
       An LLM scores interview answers against a rubric, and anything below a confidence
       threshold routes to a human rather than standing on its own. The model's verdict and
       the routed verdict are stored separately and nothing is overwritten. The audit log is
-      hash-chained and append-only at the database level, and its verifier is tested
-      against deliberate tampering rather than only against a clean chain, which is the
-      difference between a chain and a chain that works.
+      hash-chained, and its negative tests drop the SQLite append-only triggers first,
+      standing in for direct database access, before asserting the verifier still catches
+      an edited payload, a deleted entry and a rewritten hash. Testing the verifier against
+      a clean chain would have proved nothing; that is the whole difference.
     bindings:
       - kind: command
         value: "uvicorn app.main:app --reload"
@@ -49,6 +50,9 @@ cards:
       - kind: gate
         value: "test_verifier_detects_an_edited_payload"
         path: "tests/test_audit_chain.py"
+      - kind: gate
+        value: "test_ambiguous_answer_routes_to_human_review"
+        path: "tests/test_evaluation.py"
       - kind: artifact
         value: "app/domain/hashing.py"
         path: "app/domain/hashing.py"

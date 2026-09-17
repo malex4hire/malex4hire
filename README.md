@@ -27,12 +27,13 @@ One OpenAPI contract, served by JVM and Python backends and consumed by two fron
 
 **A model decides something about a person, and the record of it is tamper-evident.**
 
-An LLM scores interview answers against a rubric, and anything below a confidence threshold routes to a human rather than standing on its own. The model's verdict and the routed verdict are stored separately and nothing is overwritten. The audit log is hash-chained and append-only at the database level, and its verifier is tested against deliberate tampering rather than only against a clean chain, which is the difference between a chain and a chain that works.
+An LLM scores interview answers against a rubric, and anything below a confidence threshold routes to a human rather than standing on its own. The model's verdict and the routed verdict are stored separately and nothing is overwritten. The audit log is hash-chained, and its negative tests drop the SQLite append-only triggers first, standing in for direct database access, before asserting the verifier still catches an edited payload, a deleted entry and a rewritten hash. Testing the verifier against a clean chain would have proved nothing; that is the whole difference.
 
 | | what it is | where it lives |
 |---|---|---|
 | run | `uvicorn app.main:app --reload` | [app/main.py](https://github.com/malex4hire/interview-eval-platform/blob/main/app/main.py) |
 | gate | `test_verifier_detects_an_edited_payload` | [tests/test_audit_chain.py](https://github.com/malex4hire/interview-eval-platform/blob/main/tests/test_audit_chain.py) |
+| gate | `test_ambiguous_answer_routes_to_human_review` | [tests/test_evaluation.py](https://github.com/malex4hire/interview-eval-platform/blob/main/tests/test_evaluation.py) |
 | artifact | `app/domain/hashing.py` | [app/domain/hashing.py](https://github.com/malex4hire/interview-eval-platform/blob/main/app/domain/hashing.py) |
 
 ---

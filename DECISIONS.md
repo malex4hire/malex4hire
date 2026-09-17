@@ -247,3 +247,63 @@ and **a check with a false positive gets disabled by whoever trusts it next**, w
 more than the sub-numbering case it would catch. The reviewer's own confidence that
 sub-numbering is a convention here was low. Recorded so the next reader sees a decision
 rather than an oversight.
+
+---
+
+## 2026-09-17 - KNOWN LIMITATIONS in the checking apparatus, recorded and not fixed
+
+**Operator ruling, this session.** This repository is presentation work under D-2. A defect
+a visitor sees gets fixed; a defect confined to the checking apparatus is recorded and
+shipped, because the cost of an apparatus defect here does not justify another round and
+another round would add checks that the round after it would find defects in.
+
+**Everything below was found by review, was reproduced by execution, and is real. None of
+it is fixed. The published page was checked independently and is correct: three cards, every
+link live, every binding resolving, no stale count, no unbound claim.**
+
+### The boundary test does not exercise the check it is named for
+
+`test_a_binding_value_is_matched_with_a_boundary` calls `_bounded()` directly, and nothing
+asserts that the binding check *uses* it. **Reproduced:** revert the check to
+`if value not in haystack` while leaving the helper and its test in place, and the full
+suite is **12 passed**. So the commit that landed this said "both mutations go red" and one
+of the two does not. **This is the same ROOT RULE violation that commit was written to
+correct, one layer in:** the control is registered, a test exercises the helper, and the
+wiring between them is unobserved. The fix would be a test that drives the real check
+against a synthetic haystack.
+
+### The workflow guard has a false positive on a YAML comment
+
+It matches every line of `cards.yml` containing `render_readme.py`, with no distinction
+between a `run:` line and a comment. **Reproduced:** adding the comment
+`# scripts/render_readme.py writes the page when given no flag.` turns the test red. Its
+true-positive path does work - deleting `--check` from the `run:` line goes red. **Recorded
+with the irony intact:** the same commit declined a boundary change on the grounds that a
+false positive gets a check disabled, and shipped one easier to trigger than the case it
+declined.
+
+### `make demo` resolves against a comment, never against the target
+
+The `states` hatch was removed so the binding reads `abyss-write-gate/Makefile` rather than
+its README, which narrowed the lag window. It did not bind the value to the definition: the
+literal `make demo` appears twice in that Makefile and **both occurrences are prose** - a
+header comment and a `help` echo. The real target is `demo:`. **Checked against the live
+file: the target exists, so the command the card prints works today and the page is
+correct.** What would not be caught is a future rename with the comment and the help line
+lagging, which is the rename failure this check exists for.
+
+### The argv test writes to the tracked page and re-tests an unrelated property
+
+It appends a marker to the committed `README.md` and restores it in a `finally`. A kill
+between the two leaves the marker in the working tree - harmless on a runner, an invisible
+HTML comment even if committed, but a silent edit to a generated file locally. Its closing
+assertion also sits outside the `try` and duplicates the reproduction test, so an
+un-rendered `profile.yaml` edit fails it with a message about argument refusal and points
+the reader at the wrong guard. Rendering into a temporary path is the fix.
+
+### Pre-existing: the link check reads a rate limit as a broken link
+
+`_fetch` maps every `HTTPError` to its status, so an unauthenticated GitHub 429 is reported
+by `test_every_outbound_link_resolves` as a link that does not resolve. Observed once on a
+baseline run and green on immediate re-run. **Not introduced by this branch**, and it means
+the suite is rate-limit-flaky in a way that reads as a published defect when it is not.

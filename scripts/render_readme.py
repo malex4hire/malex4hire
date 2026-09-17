@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Render README.md from profile.yaml.
 
-    python3 scripts/render_readme.py
+    python3 scripts/render_readme.py            # write the page
+    python3 scripts/render_readme.py --check    # fail if the committed page has drifted
 
 The page is a positioning statement and one card per public repository. Both live in
 profile.yaml, and this turns them into markdown, for one reason: adding a repository has
@@ -32,6 +33,17 @@ BANNER = (
 )
 
 # What each kind of binding is called on the page. A card names at least one.
+# The cards region, marked explicitly so a check can slice it out.
+#
+# A reader never sees these; GitHub renders an HTML comment as nothing. They exist because
+# the alternative was locating the region by its first and last `---`, and that separator
+# is only there when profile.yaml declares a footer. With no footer the slice silently
+# became "the whole page", and the layout check then compared the cards to themselves and
+# reported a false failure pointing at the renderer. A check with a false positive gets
+# disabled by whoever trusts it next.
+CARDS_OPEN = "<!-- cards: generated from profile.yaml, one per public repository -->"
+CARDS_CLOSE = "<!-- /cards -->"
+
 KIND_LABEL = {
     "command": "run",
     "gate": "gate",
@@ -78,9 +90,10 @@ def render() -> str:
     parts = [f"## {doc['name'].strip()}", ""]
     for line in positioning:
         parts += [line, ""]
-    parts += ["---", ""]
+    parts += ["---", "", CARDS_OPEN, ""]
     for name, card in doc["cards"].items():
         parts.append(card_markdown(name, card))
+    parts += [CARDS_CLOSE, ""]
     if doc.get("footer"):
         parts += ["---", "", doc["footer"].strip(), ""]
 
@@ -88,9 +101,27 @@ def render() -> str:
     return BANNER + "\n" + body.rstrip() + "\n"
 
 
-def main() -> int:
+def main(argv: list[str] | None = None) -> int:
+    argv = sys.argv[1:] if argv is None else argv
     rendered = render()
     changed = not TARGET.is_file() or TARGET.read_text(encoding="utf-8") != rendered
+
+    # --check writes nothing. A CI recipe that renders the page and then asserts the page
+    # reproduces is asserting nothing: the render has already made it true, and a hand edit
+    # to README.md is silently discarded on the runner while the page GitHub serves keeps
+    # it. That was the recipe here until a review ran it.
+    if "--check" in argv:
+        if changed:
+            print(
+                "README.md has drifted from profile.yaml. Run "
+                "`python3 scripts/render_readme.py`; a hand-edited page carries claims "
+                "nothing resolved",
+                file=sys.stderr,
+            )
+            return 1
+        print("README.md is what profile.yaml renders")
+        return 0
+
     TARGET.write_text(rendered, encoding="utf-8")
     print(f"README.md {'rendered' if changed else 'unchanged'} from profile.yaml")
     return 0

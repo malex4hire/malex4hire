@@ -45,8 +45,12 @@ cards:
       a clean chain would have proved nothing; that is the whole difference.
     bindings:
       - kind: command
+        # The command is documented in that repository's README rather than inside the
+        # module it starts, so the binding says so. Declared per binding, because a blanket
+        # fallback to the README dissolves the rename this check exists to catch.
         value: "uvicorn app.main:app --reload"
         path: "app/main.py"
+        states: "README.md"
       - kind: gate
         value: "test_verifier_detects_an_edited_payload"
         path: "tests/test_audit_chain.py"

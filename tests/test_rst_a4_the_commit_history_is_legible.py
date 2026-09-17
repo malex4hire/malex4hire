@@ -29,11 +29,27 @@ def _git(*args: str) -> subprocess.CompletedProcess:
 
 
 def _owed() -> set[str]:
-    found = set()
+    """The RST identifiers this repository carries a check for.
+
+    A file the glob finds and the pattern rejects is a FAILURE, not a skip. `test_rst_a6.py`
+    - no trailing description - was found by the glob, rejected by the pattern, and dropped
+    with no warning, so the check whose job is "a constraint with no commit behind it fails"
+    never asked about it. A set built by discarding what it cannot parse is a set that
+    quietly shrinks to nothing.
+    """
+    found, unparsed = set(), []
     for path in sorted((ROOT / "tests").glob("test_rst_*.py")):
         match = TEST_FILE.match(path.name)
         if match:
             found.add(match.group(1).replace("_", "-").upper())
+        else:
+            unparsed.append(path.name)
+    if unparsed:
+        pytest.fail(
+            "these files name an RST constraint in a shape this check cannot read, so they "
+            "would be dropped from the set silently: " + ", ".join(unparsed)
+            + "\n\nExpected test_rst_<letter><digits>_<description>.py"
+        )
     return found
 
 

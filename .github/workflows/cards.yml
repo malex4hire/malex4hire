@@ -32,7 +32,10 @@ jobs:
         run: python3 -m pip install --upgrade pip && pip install -e ".[verify]"
 
       - name: the page is what its source renders
-        run: python3 scripts/render_readme.py
+        # --check, not a render. Rendering here rewrites README.md on the runner and makes
+        # the reproduction test true before it runs, so a hand edit pushed to the page
+        # GitHub serves would pass CI green. A review demonstrated exactly that.
+        run: python3 scripts/render_readme.py --check
 
       - name: every card resolves
         # The token is for the API rate limit on the repository listing, nothing else.

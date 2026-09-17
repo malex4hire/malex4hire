@@ -201,19 +201,31 @@ def test_every_binding_exists_in_the_repository_the_card_points_at():
             problems.append(f"{name}: no binding, so the card states something and proves nothing")
             continue
 
-        status, readme = _raw(name, "README.md")
-        readme = readme if status == 200 else ""
-
         for binding in bindings:
             path, value = binding["path"], str(binding["value"])
             status, body = _raw(name, path)
             if status != 200:
                 problems.append(f"{name}: {path} does not exist on main ({status})")
                 continue
-            if value not in body and value not in readme and value != path:
+
+            # Where the value must be found, declared per binding and defaulting to the
+            # path itself. A blanket fallback to the target repository's README dissolves
+            # the rename this check exists to catch: a gate renamed in the test file, with
+            # the old name still sitting in a changelog line, would resolve forever. READMEs
+            # lag renames - that is the premise of this whole page.
+            states = binding.get("states", path)
+            if states == path:
+                haystack, where = body, path
+            else:
+                status, haystack = _raw(name, states)
+                where = states
+                if status != 200:
+                    problems.append(f"{name}: {states} does not exist on main ({status})")
+                    continue
+
+            if value not in haystack and value != path:
                 problems.append(
-                    f"{name}: the card prints `{value}` and neither {path} nor that "
-                    "repository's README contains it"
+                    f"{name}: the card prints `{value}` and {where} does not contain it"
                 )
 
     assert not problems, (
@@ -264,8 +276,19 @@ def test_adding_a_card_leaves_the_positioning_and_the_layout_untouched():
         render.profile = original
 
     def outside_cards(page: str) -> tuple[str, str]:
-        head, _, rest = page.partition("\n---\n")
-        _, _, tail = rest.rpartition("\n---\n")
+        """Everything before and after the cards, sliced on the renderer's own markers.
+
+        Locating the region by its first and last `---` looked equivalent and was not: the
+        trailing separator only exists when profile.yaml declares a footer, so with no
+        footer the slice silently became the whole page and this test compared the cards to
+        themselves. It then failed, saying the layout had changed when nothing outside the
+        cards had, which sends the next reader to the wrong file.
+        """
+        assert render.CARDS_OPEN in page and render.CARDS_CLOSE in page, (
+            "the rendered page carries no cards markers, so the region cannot be located"
+        )
+        head, _, rest = page.partition(render.CARDS_OPEN)
+        _, _, tail = rest.partition(render.CARDS_CLOSE)
         return head, tail
 
     assert outside_cards(before) == outside_cards(after), (

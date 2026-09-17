@@ -11,6 +11,8 @@ Every repository below says what it proves and names the command, gate or artifa
 
 ---
 
+<!-- cards: generated from profile.yaml, one per public repository -->
+
 ### [abyss-polyglot](https://github.com/malex4hire/abyss-polyglot)
 
 **One contract. Several runtimes. One suite that names none of them.**
@@ -35,6 +37,8 @@ An LLM scores interview answers against a rubric, and anything below a confidenc
 | gate | `test_verifier_detects_an_edited_payload` | [tests/test_audit_chain.py](https://github.com/malex4hire/interview-eval-platform/blob/main/tests/test_audit_chain.py) |
 | gate | `test_ambiguous_answer_routes_to_human_review` | [tests/test_evaluation.py](https://github.com/malex4hire/interview-eval-platform/blob/main/tests/test_evaluation.py) |
 | artifact | `app/domain/hashing.py` | [app/domain/hashing.py](https://github.com/malex4hire/interview-eval-platform/blob/main/app/domain/hashing.py) |
+
+<!-- /cards -->
 
 ---
 

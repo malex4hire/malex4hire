@@ -74,3 +74,61 @@ none of them. Reproduced in a throwaway repository and driven red.
 **`RST-A3` would have matched `RST-A30`**, because the match was a bare case-insensitive
 substring. Latent at two constraints and wrong at thirty. Closed with a boundary that does
 not treat a digit as a continuation.
+
+---
+
+## 2026-09-17 - five holes the auto-review found here, all reproduced and closed
+
+Every one was verified by execution before it was believed, and every fix was driven red
+by rerunning the review's own scenario.
+
+**The CI recipe rendered the page before asserting the page reproduced, so that check
+could not fail in CI.** `render_readme.py` overwrote `README.md` and returned 0 either way,
+so a hand edit pushed to the page GitHub serves was silently discarded on the runner while
+CI went green. Demonstrated: appending an unbound claim to `README.md` and running the two
+steps in order gave `2 passed`. The check the commit message called load-bearing was
+decoration in the recipe that ran it.
+
+Closed with a `--check` mode that writes nothing and returns 1 on drift; CI calls that
+instead of rendering. The same hand edit now exits 1 at the CI step and fails the test.
+
+**A binding's value fell back to the target repository's README, which dissolves the
+rename the check exists to catch.** READMEs lag renames - that is the premise of this whole
+page - so a gate renamed in its test file with the old name left in a changelog line would
+have resolved forever. For the `command` binding the fallback was not a fallback but the
+only thing being matched.
+
+Closed by declaring per binding where the value must be found: `states`, defaulting to the
+binding's own path. The one binding that genuinely lives in a README says so. Renaming
+`test_verifier_detects_an_edited_payload` now fails naming the file that does not contain
+it.
+
+**The anti-squash check counted a union, so a NEW constraint arriving in a shared commit
+added one to both sides and could never fail.** Fixed in the previous entry by reading the
+spec as written - a subject naming more than one constraint is evidence for none of them -
+and confirmed here against the review's exact scenario: `RST-A3 RST-A5: two constraints,
+one commit` now leaves RST-A5 with no commit of its own.
+
+**Secondary, also already closed: `RST-A4` was satisfied by an `RST-A41` commit.** The
+review's own reproduction did not demonstrate this, because it left RST-A4 with a
+legitimate commit; rerun properly, with `RST-A41` as the only commit, RST-A4 goes red, and
+the control - the same repository with the subject changed to `RST-A4` - passes. The
+boundary is what makes it red.
+
+**A constraint's test file escaped the set silently if its name had no trailing
+description.** The glob is `test_rst_*.py` and the pattern requires an underscore after the
+digits, so `test_rst_a6.py` was found, rejected and dropped with no warning: the check
+whose job is "a constraint with no commit behind it fails" never asked about it. A set
+built by discarding what it cannot parse shrinks quietly to nothing. Now a loud failure
+naming the file. Fixed in `abyss-polyglot`'s copy in the same breath.
+
+**The layout check produced a FALSE failure when `profile.yaml` had no footer.** It located
+the cards region by the first and last `---`, and the trailing separator only exists when a
+footer is declared, so with none the slice became the whole page and the test compared the
+cards to themselves. It then reported that the layout had changed when nothing outside the
+cards had, sending the next reader to the renderer. A check with a false positive gets
+disabled by whoever trusts it next.
+
+Closed by marking the region explicitly in the renderer (`CARDS_OPEN` / `CARDS_CLOSE`, HTML
+comments a reader never sees) and slicing on those. With the footer removed the test now
+passes, which is the correct answer.

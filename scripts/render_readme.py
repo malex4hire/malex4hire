@@ -106,6 +106,22 @@ def main(argv: list[str] | None = None) -> int:
     rendered = render()
     changed = not TARGET.is_file() or TARGET.read_text(encoding="utf-8") != rendered
 
+    # Unknown argv is REFUSED, never treated as "no flag".
+    #
+    # `if "--check" in argv` left the recipe one character from the bug this mode exists to
+    # fix: `--checkk`, `-c` or `--help` all fell through to the write path and exited 0, so
+    # a typo in cards.yml would silently re-render the page on the runner and the
+    # reproduction test would assert against what had just been written. A flag check that
+    # treats a misspelling as absence is a flag check that fails open.
+    unknown = [a for a in argv if a != "--check"]
+    if unknown:
+        print(
+            f"unrecognised argument(s): {' '.join(unknown)}. The only flag is --check, "
+            "which verifies the committed page and writes nothing",
+            file=sys.stderr,
+        )
+        return 2
+
     # --check writes nothing. A CI recipe that renders the page and then asserts the page
     # reproduces is asserting nothing: the render has already made it true, and a hand edit
     # to README.md is silently discarded on the runner while the page GitHub serves keeps

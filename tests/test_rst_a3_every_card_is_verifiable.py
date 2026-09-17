@@ -223,7 +223,14 @@ def test_every_binding_exists_in_the_repository_the_card_points_at():
                     problems.append(f"{name}: {states} does not exist on main ({status})")
                     continue
 
-            if value not in haystack and value != path:
+            # A bounded match, not a bare substring. `R-8` is inside `R-80`, so renumbering
+            # a gate in the target repository would leave the card resolving forever while
+            # printing an identifier that no longer exists - the exact failure this check
+            # is for. The sibling commit-history check was given this boundary an hour
+            # earlier and this one was not, which is the same defect class twice in two
+            # files.
+            bounded = re.compile(rf"(?<![\w-]){re.escape(value)}(?![\w-])")
+            if not bounded.search(haystack) and value != path:
                 problems.append(
                     f"{name}: the card prints `{value}` and {where} does not contain it"
                 )

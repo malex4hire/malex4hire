@@ -168,3 +168,32 @@ constraint is satisfied permanently by one past sole-naming commit and only a co
 to the set can turn it red. Stated in the docstring, with why the branch-range alternative
 is worse: it is empty the moment the branch merges and would be green forever for the wrong
 reason.
+
+---
+
+## 2026-09-17 - two more, and the second is the same defect class twice in two files
+
+**The `--check` flag was enabled by an unvalidated substring test, so the recipe was one
+character from the bug the flag exists to fix.** `if "--check" in argv` with no rejection of
+anything else meant `--checkk`, `-c` and `--help` all fell through to the write path and
+exited 0. Reproduced: with a hand edit appended to `README.md`, `--checkk` re-rendered the
+page, discarded the edit, exited 0, and the reproduction test then passed. **A flag check
+that treats a misspelling as absence fails open**, and the whole point of that flag was to
+stop the pipeline writing to the thing a later step asserts about. Unknown argv now exits 2;
+the same hand edit survives and `--check` exits 1 on it.
+
+**The binding-value match was a bare substring, so a renumbered gate would resolve
+forever.** `R-8` is inside `R-80`: renumber that gate in the target repository, leave the
+filename alone, and the card goes on printing an identifier that no longer exists with the
+check green. That is verbatim the failure the previous entry says it closed - closed for the
+README-fallback half, left open for the substring half, in the same lines that entry
+rewrote.
+
+**This is the part worth keeping.** The identical boundary defect was diagnosed and fixed in
+`_names()` an hour earlier, on the argument that `RST-A3` must not match `RST-A30`. Gate
+identifiers in `profile.yaml` are the same shape and got no boundary. **Naming a defect
+class in one file does not fix it in another**, and a per-commit reading of either change
+would never have seen it - only the batch, looking at both, did.
+
+Reproduced with a value that is a prefix of a real token, which is what a renumber looks
+like from this side: red, naming the file. All real bindings still resolve.

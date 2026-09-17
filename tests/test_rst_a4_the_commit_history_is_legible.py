@@ -66,21 +66,43 @@ def _history() -> list[tuple[str, str]]:
     assert commits, "git log returned no commits"
     return commits
 
+# A bare substring is not an identifier match: "RST-A1" is a prefix of "RST-A10", so a
+# single RST-A10 commit would report RST-A1 as having a commit behind it. Latent while
+# there are fewer than ten constraints, and wrong the moment there are not.
+def _names(identifier: str, subject: str) -> bool:
+    return bool(re.search(rf"(?<![\w-]){re.escape(identifier)}(?![\w-])", subject, re.I))
 
-def _naming() -> dict[str, set[str]]:
+
+def _naming() -> dict[str, list[tuple[str, str]]]:
+    """For each constraint, the commits whose subject names it."""
     commits = _history()
     return {
-        identifier: {sha for sha, subject in commits if identifier.lower() in subject.lower()}
+        identifier: [(sha, subject) for sha, subject in commits if _names(identifier, subject)]
         for identifier in sorted(_owed())
     }
 
 
+def _sole(identifier: str, subject: str, owed: set[str]) -> bool:
+    """True when this subject names this constraint and no other.
+
+    The spec is "each commit naming the RST identifier it satisfies", singular. A banner
+    subject naming every constraint at once satisfies none of them: it is the squash this
+    forbids, and counting it was the hole a review found here. Three banner commits passed
+    a cardinality test on the union while no constraint had a commit of its own.
+    """
+    return _names(identifier, subject) and not any(
+        other != identifier and _names(other, subject) for other in owed
+    )
+
+
 def test_every_constraint_with_a_check_has_a_commit_that_names_it():
     owed = _owed()
-    assert owed, "no tests/test_rst_*.py files, so this check has no set to work from"
-
+    assert owed, (
+        "no tests/test_rst_*.py files, so nothing here claims to satisfy a constraint and "
+        "this check has no set to work from"
+    )
     naming = _naming()
-    unnamed = sorted(i for i, shas in naming.items() if not shas)
+    unnamed = sorted(i for i, commits in naming.items() if not commits)
     assert not unnamed, (
         "these constraints have a check in tests/ and no commit subject naming them: "
         + ", ".join(unnamed)
@@ -88,11 +110,26 @@ def test_every_constraint_with_a_check_has_a_commit_that_names_it():
     )
 
 
-def test_the_constraints_did_not_all_land_in_one_commit():
-    owed, naming = _owed(), _naming()
-    distinct = set().union(*naming.values()) if naming else set()
-    assert len(distinct) >= len(owed), (
-        f"{len(owed)} constraints are claimed by {len(distinct)} commit(s). One commit "
-        "answering for all of them is a diff with no argument in it:\n  "
-        + "\n  ".join(f"{i}: {sorted(s)[:2] or 'none'}" for i, s in sorted(naming.items()))
+def test_every_constraint_has_a_commit_of_its_own():
+    """One commit per constraint, and a banner naming all of them is not one of them.
+
+    This is the assertion that forbids a squash. Counting commits that mention any
+    identifier does not: a review showed three subjects each naming all three constraints
+    clearing a cardinality test while no constraint had a commit to itself.
+    """
+    owed = _owed()
+    naming = _naming()
+    shared = {
+        identifier: [sha for sha, subject in commits if _sole(identifier, subject, owed)]
+        for identifier, commits in naming.items()
+    }
+    without = sorted(i for i, shas in shared.items() if not shas)
+    assert not without, (
+        "these constraints are named only by commits that also name another, so none of "
+        "them landed as its own commit: " + ", ".join(without)
+        + "\n\n"
+        + "\n".join(
+            f"  {i}: " + (", ".join(s[:8] for s in shas[:3]) or "no commit of its own")
+            for i, shas in sorted(shared.items())
+        )
     )

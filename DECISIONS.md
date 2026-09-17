@@ -57,3 +57,20 @@ It reads history rather than a branch range against `origin/main`, because a ran
 empty the moment the branch merges and the check would then be green forever for the wrong
 reason. `actions/checkout@v4` fetches one commit by default, so the workflow sets
 `fetch-depth: 0`.
+
+---
+
+## 2026-09-17 - two holes the auto-review found in the commit check, closed here too
+
+The same check exists in `abyss-polyglot` and was reviewed there; both defects are copies,
+so both fixes are.
+
+**The anti-squash assertion counted a union, which a banner subject defeats.** Three
+commits each subject-lined `RST-A3 RST-A4: ...` cleared a cardinality test while no
+constraint had a commit of its own. The spec reads "each naming the RST identifier it
+satisfies", singular, so a subject naming more than one constraint is now evidence for
+none of them. Reproduced in a throwaway repository and driven red.
+
+**`RST-A3` would have matched `RST-A30`**, because the match was a bare case-insensitive
+substring. Latent at two constraints and wrong at thirty. Closed with a boundary that does
+not treat a digit as a continuation.

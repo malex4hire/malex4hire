@@ -1,0 +1,18 @@
+[project]
+name = "malex4hire-profile"
+version = "1.0.0"
+description = "The profile page, and the checks that resolve every claim on it."
+requires-python = ">=3.10"
+dependencies = ["pyyaml>=6.0"]
+
+[project.optional-dependencies]
+verify = ["pytest>=8.0"]
+
+# Not a package and does not install one. pyproject.toml is here to declare what the
+# checks need and to configure pytest.
+[tool.setuptools]
+packages = []
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra --strict-markers"

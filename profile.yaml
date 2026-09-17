@@ -1,0 +1,89 @@
+# The profile page's source. scripts/render_readme.py turns this into README.md and
+# tests/ resolves every binding below against the live repository.
+#
+# Adding a repository is adding a card here. The positioning and the layout are not
+# touched, which is the whole reason the page is generated rather than written.
+
+name: Marc Alexander
+
+# Three lines is the ceiling, and the check enforces it. A reader who needs four lines of
+# preamble has already left.
+positioning:
+  - "Translation-layer engineering: the seam where an existing estate meets modern AI, in whatever language that estate already speaks."
+  - "Thirty years across federal, defense and healthcare systems, including DHA TRICARE and DIA. TS/SCI with CI polygraph."
+  - "Every repository below says what it proves and names the command, gate or artifact that proves it. The claims on this page are resolved against those repositories by a check that runs weekly."
+
+cards:
+  abyss-polyglot:
+    line: "One contract. Several runtimes. One suite that names none of them."
+    proves: >-
+      One OpenAPI contract, served by JVM and Python backends and consumed by two
+      frontend frameworks, with one test suite that runs unmodified against all of them
+      and names none of them. Identity is read from the live classpath rather than from a
+      label, so the stacks cannot be mislabelled and pass. It runs from a single command
+      on a bare interpreter, with nothing installed.
+    bindings:
+      - kind: command
+        value: "python3 demo.py"
+        path: "demo.py"
+      - kind: gate
+        value: "R-8"
+        path: "tests/test_r08_the_demo_runs_on_a_bare_interpreter.py"
+      - kind: artifact
+        value: "contract/openapi.yaml"
+        path: "contract/openapi.yaml"
+
+  interview-eval-platform:
+    line: "A model decides something about a person, and the record of it is tamper-evident."
+    proves: >-
+      An LLM scores interview answers against a rubric, and anything below a confidence
+      threshold routes to a human rather than standing on its own. The model's verdict and
+      the routed verdict are stored separately and nothing is overwritten. The audit log is
+      hash-chained, and its negative tests drop the SQLite append-only triggers first,
+      standing in for direct database access, before asserting the verifier still catches
+      an edited payload, a deleted entry and a rewritten hash. Testing the verifier against
+      a clean chain would have proved nothing; that is the whole difference.
+    bindings:
+      - kind: command
+        # The command is documented in that repository's README rather than inside the
+        # module it starts, so the binding says so. Declared per binding, because a blanket
+        # fallback to the README dissolves the rename this check exists to catch.
+        value: "uvicorn app.main:app --reload"
+        path: "app/main.py"
+        states: "README.md"
+      - kind: gate
+        value: "test_verifier_detects_an_edited_payload"
+        path: "tests/test_audit_chain.py"
+      - kind: gate
+        value: "test_ambiguous_answer_routes_to_human_review"
+        path: "tests/test_evaluation.py"
+      - kind: artifact
+        value: "app/domain/hashing.py"
+        path: "app/domain/hashing.py"
+
+  abyss-write-gate:
+    line: "A compromised agent attacks its own write boundary, and the misses are published too."
+    proves: >-
+      A hostile driver replaces the model and attempts every forbidden state change it can
+      reach against an approval workflow; a deterministic gate at the write boundary
+      refuses them and no forbidden mutation lands. The part usually left out is committed
+      beside it: the cases the gate does NOT catch, generated from the same run rather than
+      written up afterwards, with a test asserting the missed set is non-empty on the
+      grounds that a gate with no published blind spot has not been probed hard enough.
+    bindings:
+      - kind: command
+        value: "make demo"
+        path: "Makefile"
+      - kind: gate
+        value: "RST-C5"
+        path: "tests/test_rst_c5_known_miss_register.py"
+      - kind: artifact
+        value: "docs/KNOWN-MISSES.md"
+        path: "docs/KNOWN-MISSES.md"
+
+footer: >-
+  The private work is client code and stays off this page. Every other public repository
+  has a card, this one excepted, since a card pointing at the page it is printed on says
+  nothing. The set is read from the account rather than from a list kept here, so a
+  repository going public without a card is a gap that fails rather than a thing somebody
+  has to remember.

@@ -14,25 +14,28 @@ positioning:
   - "Every repository below says what it proves and names the command, gate or artifact that proves it. The claims on this page are resolved against those repositories by a check that runs weekly."
 
 cards:
-  abyss-polyglot:
-    line: "One contract. Several runtimes. One suite that names none of them."
+# Card order on the page is the order of the blocks below, and nothing else sorts
+# them: the renderer walks this mapping and the account is consulted only for the
+# SET of repositories, never for their sequence. To reorder the page, move a block.
+  abyss-write-gate:
+    line: "A compromised agent attacks its own write boundary, and the misses are published too."
     proves: >-
-      One OpenAPI contract, served by JVM and Python backends and consumed by two
-      frontend frameworks, with one test suite that runs unmodified against all of them
-      and names none of them. Identity is read from the live classpath rather than from a
-      label, so the stacks cannot be mislabelled and pass. It runs from a single command
-      on a bare interpreter, with nothing installed.
+      A hostile driver replaces the model and attempts every forbidden state change it can
+      reach against an approval workflow; a deterministic gate at the write boundary
+      refuses them and no forbidden mutation lands. The part usually left out is committed
+      beside it: the cases the gate does NOT catch, generated from the same run rather than
+      written up afterwards, with a test asserting the missed set is non-empty on the
+      grounds that a gate with no published blind spot has not been probed hard enough.
     bindings:
       - kind: command
-        value: "python3 demo.py"
-        path: "demo.py"
+        value: "make demo"
+        path: "Makefile"
       - kind: gate
-        value: "R-8"
-        path: "tests/test_r08_the_demo_runs_on_a_bare_interpreter.py"
+        value: "RST-C5"
+        path: "tests/test_rst_c5_known_miss_register.py"
       - kind: artifact
-        value: "contract/openapi.yaml"
-        path: "contract/openapi.yaml"
-
+        value: "docs/KNOWN-MISSES.md"
+        path: "docs/KNOWN-MISSES.md"
   interview-eval-platform:
     line: "A model decides something about a person, and the record of it is tamper-evident."
     proves: >-
@@ -61,25 +64,25 @@ cards:
         value: "app/domain/hashing.py"
         path: "app/domain/hashing.py"
 
-  abyss-write-gate:
-    line: "A compromised agent attacks its own write boundary, and the misses are published too."
+  abyss-polyglot:
+    line: "One contract. Several runtimes. One suite that names none of them."
     proves: >-
-      A hostile driver replaces the model and attempts every forbidden state change it can
-      reach against an approval workflow; a deterministic gate at the write boundary
-      refuses them and no forbidden mutation lands. The part usually left out is committed
-      beside it: the cases the gate does NOT catch, generated from the same run rather than
-      written up afterwards, with a test asserting the missed set is non-empty on the
-      grounds that a gate with no published blind spot has not been probed hard enough.
+      One OpenAPI contract, served by JVM and Python backends and consumed by two
+      frontend frameworks, with one test suite that runs unmodified against all of them
+      and names none of them. Identity is read from the live classpath rather than from a
+      label, so the stacks cannot be mislabelled and pass. It runs from a single command
+      on a bare interpreter, with nothing installed.
     bindings:
       - kind: command
-        value: "make demo"
-        path: "Makefile"
+        value: "python3 demo.py"
+        path: "demo.py"
       - kind: gate
-        value: "RST-C5"
-        path: "tests/test_rst_c5_known_miss_register.py"
+        value: "R-8"
+        path: "tests/test_r08_the_demo_runs_on_a_bare_interpreter.py"
       - kind: artifact
-        value: "docs/KNOWN-MISSES.md"
-        path: "docs/KNOWN-MISSES.md"
+        value: "contract/openapi.yaml"
+        path: "contract/openapi.yaml"
+
 
 footer: >-
   The private work is client code and stays off this page. Every other public repository

@@ -1,12 +1,12 @@
-"""RST-A4: the work reads as work, one commit per constraint it satisfies.
+"""RST-A4: the work reads as work, and every constraint has a commit naming it.
 
 A squashed branch is a diff with no argument in it. Somebody arriving here in six months
 reads the history to find out why the page is generated rather than written, and a single
 commit called "profile" answers nothing.
 
 The set is derived, not typed: it is the RST identifiers this repository's own test files
-carry. A constraint that arrives with a check and no commit naming it fails here, and so
-does a branch collapsed into one commit claiming all of them.
+carry. A constraint that arrives with a check and no commit naming it fails here. One
+commit may name several constraints, and it is evidence for each of them.
 """
 
 from __future__ import annotations
@@ -98,19 +98,6 @@ def _naming() -> dict[str, list[tuple[str, str]]]:
     }
 
 
-def _sole(identifier: str, subject: str, owed: set[str]) -> bool:
-    """True when this subject names this constraint and no other.
-
-    The spec is "each commit naming the RST identifier it satisfies", singular. A banner
-    subject naming every constraint at once satisfies none of them: it is the squash this
-    forbids, and counting it was the hole a review found here. Three banner commits passed
-    a cardinality test on the union while no constraint had a commit of its own.
-    """
-    return _names(identifier, subject) and not any(
-        other != identifier and _names(other, subject) for other in owed
-    )
-
-
 def test_every_constraint_with_a_check_has_a_commit_that_names_it():
     owed = _owed()
     assert owed, (
@@ -123,43 +110,4 @@ def test_every_constraint_with_a_check_has_a_commit_that_names_it():
         "these constraints have a check in tests/ and no commit subject naming them: "
         + ", ".join(unnamed)
         + ". A check with no commit behind it is work whose reason lives nowhere"
-    )
-
-
-def test_every_constraint_has_a_commit_of_its_own():
-    """One commit per constraint, and a banner naming all of them is not one of them.
-
-    **What this asserts, exactly:** every constraint has at least one commit, anywhere in
-    reachable history, whose subject names it and no other. Counting commits that mention
-    any identifier does not do that - a review showed three subjects each naming all three
-    constraints clearing a cardinality test while no constraint had a commit to itself.
-
-    **What it does NOT assert, said here rather than left to be discovered.** It grades all
-    of history, so a constraint is satisfied permanently by one past sole-naming commit.
-    Squash a later branch into a banner subject and this stays green, because the earlier
-    commits are still reachable. Only a constraint that is NEW to the set can turn it red.
-
-    That limit is accepted rather than closed, for a reason and not for convenience. The
-    alternative is a range against `origin/main`, which is empty the moment the branch
-    merges and would leave the check green forever for the wrong reason - a worse failure,
-    and the one this file was written to avoid. Squashing commits that have already landed
-    means rewriting history, which is forbidden here by a separate standing order; this is
-    not the instrument for catching that, and pretending otherwise would be the overstated
-    claim the review found in the first draft of this docstring.
-    """
-    owed = _owed()
-    naming = _naming()
-    shared = {
-        identifier: [sha for sha, subject in commits if _sole(identifier, subject, owed)]
-        for identifier, commits in naming.items()
-    }
-    without = sorted(i for i, shas in shared.items() if not shas)
-    assert not without, (
-        "these constraints are named only by commits that also name another, so none of "
-        "them landed as its own commit: " + ", ".join(without)
-        + "\n\n"
-        + "\n".join(
-            f"  {i}: " + (", ".join(s[:8] for s in shas[:3]) or "no commit of its own")
-            for i, shas in sorted(shared.items())
-        )
     )

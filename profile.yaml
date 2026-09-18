@@ -83,6 +83,25 @@ cards:
         value: "contract/openapi.yaml"
         path: "contract/openapi.yaml"
 
+  abyss-independent-authority:
+    line: "Four agent frameworks request the same capability. None can authorize itself."
+    proves: >-
+      CrewAI, Semantic Kernel, LangGraph and LangChain each submit through their native
+      execution model to one deterministic Java authority boundary. A valid request
+      proceeds; missing evidence, an invented approval and the wrong capability are
+      denied. The frameworks change. The authority does not.
+    bindings:
+      - kind: command
+        value: "./demo"
+        path: "demo"
+        states: "README.md"
+      - kind: gate
+        value: "CAPABILITY_NOT_GRANTED"
+        path: "java/com/abyss/authority/AuthorityDemo.java"
+      - kind: artifact
+        value: "run_demo.py"
+        path: "run_demo.py"
+
 
 footer: >-
   The private work is client code and stays off this page. Every other public repository

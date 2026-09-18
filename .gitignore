@@ -3,3 +3,9 @@ __pycache__/
 *.pyc
 .venv/
 code-review/
+
+# Process, not product. Public repos carry the README, the code and the visual.
+CLAUDE.md
+DECISIONS.md
+LESSONS.md
+PortfolioDecisions.md

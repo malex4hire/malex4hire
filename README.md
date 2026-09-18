@@ -50,6 +50,18 @@ One OpenAPI contract, served by JVM and Python backends and consumed by two fron
 | gate | `R-8` | [tests/test_r08_the_demo_runs_on_a_bare_interpreter.py](https://github.com/malex4hire/abyss-polyglot/blob/main/tests/test_r08_the_demo_runs_on_a_bare_interpreter.py) |
 | artifact | `contract/openapi.yaml` | [contract/openapi.yaml](https://github.com/malex4hire/abyss-polyglot/blob/main/contract/openapi.yaml) |
 
+### [abyss-independent-authority](https://github.com/malex4hire/abyss-independent-authority)
+
+**Four agent frameworks request the same capability. None can authorize itself.**
+
+CrewAI, Semantic Kernel, LangGraph and LangChain each submit through their native execution model to one deterministic Java authority boundary. A valid request proceeds; missing evidence, an invented approval and the wrong capability are denied. The frameworks change. The authority does not.
+
+| | what it is | where it lives |
+|---|---|---|
+| run | `./demo` | [demo](https://github.com/malex4hire/abyss-independent-authority/blob/main/demo) |
+| gate | `CAPABILITY_NOT_GRANTED` | [java/com/abyss/authority/AuthorityDemo.java](https://github.com/malex4hire/abyss-independent-authority/blob/main/java/com/abyss/authority/AuthorityDemo.java) |
+| artifact | `run_demo.py` | [run_demo.py](https://github.com/malex4hire/abyss-independent-authority/blob/main/run_demo.py) |
+
 <!-- /cards -->
 
 ---

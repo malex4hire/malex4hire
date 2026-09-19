@@ -62,6 +62,18 @@ CrewAI, Semantic Kernel, LangGraph and LangChain each submit through their nativ
 | gate | `CAPABILITY_NOT_GRANTED` | [java/com/abyss/authority/AuthorityDemo.java](https://github.com/malex4hire/abyss-independent-authority/blob/main/java/com/abyss/authority/AuthorityDemo.java) |
 | artifact | `run_demo.py` | [run_demo.py](https://github.com/malex4hire/abyss-independent-authority/blob/main/run_demo.py) |
 
+### [abyss-medicare-stars-agent](https://github.com/malex4hire/abyss-medicare-stars-agent)
+
+**A Medicare Stars agent can use an LLM without surrendering evidence, authority or cost control.**
+
+Google ADK orchestrates Vertex AI Gemini through an MCP/FastMCP tool boundary to analyze aggregate-only BigQuery evidence. Deterministic policy rejects PHI and unrelated tool use, evaluations gate releases, Trivy scans the OCI image, and the private Cloud Run deployment reports per-request token and estimated cost telemetry. The model reasons. It does not authorize itself.
+
+| | what it is | where it lives |
+|---|---|---|
+| run | `./demo --local` | [demo](https://github.com/malex4hire/abyss-medicare-stars-agent/blob/main/demo) |
+| gate | `./evaluate` | [evaluate](https://github.com/malex4hire/abyss-medicare-stars-agent/blob/main/evaluate) |
+| artifact | `observability/llm_cost.py` | [observability/llm_cost.py](https://github.com/malex4hire/abyss-medicare-stars-agent/blob/main/observability/llm_cost.py) |
+
 <!-- /cards -->
 
 ---

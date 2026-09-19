@@ -118,6 +118,7 @@ cards:
       - kind: gate
         value: "./evaluate"
         path: "evaluate"
+        states: "README.md"
       - kind: artifact
         value: "observability/llm_cost.py"
         path: "observability/llm_cost.py"

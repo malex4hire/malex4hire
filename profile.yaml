@@ -102,6 +102,25 @@ cards:
         value: "run_demo.py"
         path: "run_demo.py"
 
+  abyss-medicare-stars-agent:
+    line: "A Medicare Stars agent can use an LLM without surrendering evidence, authority or cost control."
+    proves: >-
+      Google ADK orchestrates Vertex AI Gemini through an MCP/FastMCP tool boundary
+      to analyze aggregate-only BigQuery evidence. Deterministic policy rejects PHI
+      and unrelated tool use, evaluations gate releases, Trivy scans the OCI image,
+      and the private Cloud Run deployment reports per-request token and estimated
+      cost telemetry. The model reasons. It does not authorize itself.
+    bindings:
+      - kind: command
+        value: "./demo --local"
+        path: "demo"
+        states: "README.md"
+      - kind: gate
+        value: "./evaluate"
+        path: "evaluate"
+      - kind: artifact
+        value: "observability/llm_cost.py"
+        path: "observability/llm_cost.py"
 
 footer: >-
   The private work is client code and stays off this page. Every other public repository

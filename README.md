@@ -74,6 +74,18 @@ Google ADK orchestrates Vertex AI Gemini through an MCP/FastMCP tool boundary to
 | gate | `./evaluate` | [evaluate](https://github.com/malex4hire/abyss-medicare-stars-agent/blob/main/evaluate) |
 | artifact | `observability/llm_cost.py` | [observability/llm_cost.py](https://github.com/malex4hire/abyss-medicare-stars-agent/blob/main/observability/llm_cost.py) |
 
+### [abyss-medallion](https://github.com/malex4hire/abyss-medallion)
+
+**Bad ERP-like data stays visible, and reconciliation cannot waive its release gate.**
+
+Synthetic SAP ECC-like extracts move through exact Bronze snapshots, validated Silver records and S/4HANA-oriented Gold staging. Whole-document validation quarantines imbalanced and invalid records, record lineage connects target keys to source rows, and gross debit and credit reconcile separately by company and currency. Any unresolved quarantine blocks staging release. A corrected extract passes while the rejected batch remains inspectable. This is a data engineering reference, not a claim of actual SAP migration experience.
+
+| | what it is | where it lives |
+|---|---|---|
+| run | `./demo` | [demo](https://github.com/malex4hire/abyss-medallion/blob/main/demo) |
+| gate | `test_defective_batch_blocks_release_and_conserves_every_row` | [tests/test_pipeline.py](https://github.com/malex4hire/abyss-medallion/blob/main/tests/test_pipeline.py) |
+| artifact | `docs/CONTROL-REGISTER.md` | [docs/CONTROL-REGISTER.md](https://github.com/malex4hire/abyss-medallion/blob/main/docs/CONTROL-REGISTER.md) |
+
 <!-- /cards -->
 
 ---

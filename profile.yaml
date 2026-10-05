@@ -123,9 +123,32 @@ cards:
         value: "observability/llm_cost.py"
         path: "observability/llm_cost.py"
 
+  abyss-medallion:
+    line: "Bad ERP-like data stays visible, and reconciliation cannot waive its release gate."
+    proves: >-
+      Synthetic SAP ECC-like extracts move through exact Bronze snapshots, validated
+      Silver records and S/4HANA-oriented Gold staging. Whole-document validation
+      quarantines imbalanced and invalid records, record lineage connects target keys
+      to source rows, and gross debit and credit reconcile separately by company and
+      currency. Any unresolved quarantine blocks staging release. A corrected extract
+      passes while the rejected batch remains inspectable. This is a data engineering
+      reference, not a claim of actual SAP migration experience.
+    bindings:
+      - kind: command
+        value: "./demo"
+        path: "demo"
+        states: "README.md"
+      - kind: gate
+        value: "test_defective_batch_blocks_release_and_conserves_every_row"
+        path: "tests/test_pipeline.py"
+      - kind: artifact
+        value: "docs/CONTROL-REGISTER.md"
+        path: "docs/CONTROL-REGISTER.md"
+
 footer: >-
   The private work is client code and stays off this page. Every other public repository
   has a card, this one excepted, since a card pointing at the page it is printed on says
   nothing. The set is read from the account rather than from a list kept here, so a
   repository going public without a card is a gap that fails rather than a thing somebody
   has to remember.
+

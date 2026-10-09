@@ -3,11 +3,11 @@
 
 ## Marc Alexander
 
-Translation-layer engineering: the seam where an existing estate meets modern AI, in whatever language that estate already speaks.
+Hands-on software architect and engineering lead turning ambiguous business problems into working systems across full-stack software, distributed systems, cloud platforms and applied AI.
 
-Thirty years across federal, defense and healthcare systems, including DHA TRICARE and DIA. Previously held TS/SCI with Full scope polygraph.
+Thirty years across defense, intelligence and federal healthcare, including DIA and DHA TRICARE, leading teams, modernizing platforms and supporting mission-critical operations. Previously held DHA NAC suitability and TS/SCI with full-scope polygraph.
 
-Every repository below says what it proves and names the command, gate or artifact that proves it. The claims on this page are resolved against those repositories by a check that runs weekly.
+Define it. Build it. Prove it. Operate it. The projects below demonstrate architecture choices, implementation tradeoffs and verifiable outcomes through runnable demos, tests and delivery checks.
 
 ---
 
@@ -104,4 +104,4 @@ Synthetic SAP ECC-like extracts move through exact Bronze snapshots, validated S
 
 ---
 
-The private work is client code and stays off this page. Every other public repository has a card, this one excepted, since a card pointing at the page it is printed on says nothing. The set is read from the account rather than from a list kept here, so a repository going public without a card is a gap that fails rather than a thing somebody has to remember.
+The private work is client code and stays off this page. Every other public repository has a card, this one excepted, since a card pointing at the page it is printed on says nothing. The set is read from the account rather than from a list kept here, so a repository going public without a card is a gap that fails rather than a thing somebody has to remember. The claims on this page are resolved against their repositories by a check that runs weekly.

@@ -83,6 +83,36 @@ cards:
         value: "contract/openapi.yaml"
         path: "contract/openapi.yaml"
 
+  abyss-trade-workflow:
+    line: "One trade workflow in Go and Java, with durable events and live browser updates."
+    proves: >-
+      Both implementations pair a React portal with PostgreSQL transactional outboxes
+      and Kafka workers. The Java edition consumes completion events in the API and
+      delivers authenticated SSE notifications over one persistent browser subscription;
+      the Go baseline polls for status. Concurrent submissions and duplicate event
+      delivery are checked against PostgreSQL for one decision and audit trail. The
+      recorded Java demonstration shows submission and worker recovery, and both
+      implementations have CI tests and container security scans. The comparison
+      documents the delivery differences; it makes no performance claim.
+    bindings:
+      - kind: command
+        value: "./demo java"
+        path: "demo"
+        states: "README.md"
+      - kind: command
+        value: "./demo go"
+        path: "demo"
+        states: "README.md"
+      - kind: gate
+        value: "concurrentSubmitsAndDuplicateEventsProduceOneDecision"
+        path: "implementations/java/src/test/java/com/abyssapplied/trade/service/WorkflowIT.java"
+      - kind: artifact
+        value: "docs/media/trade-workflow.gif"
+        path: "docs/media/trade-workflow.gif"
+      - kind: artifact
+        value: "docs/go-vs-java.md"
+        path: "docs/go-vs-java.md"
+
   abyss-independent-authority:
     line: "Four agent frameworks request the same capability. None can authorize itself."
     proves: >-

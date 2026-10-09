@@ -54,6 +54,8 @@ One OpenAPI contract, served by JVM and Python backends and consumed by two fron
 
 **One trade workflow in Go and Java, with durable events and live browser updates.**
 
+![Go](https://img.shields.io/badge/Go-00ADD8?logo=go&logoColor=white) ![Java](https://img.shields.io/badge/Java-ED8B00?logo=openjdk&logoColor=white) ![React](https://img.shields.io/badge/React-20232A?logo=react&logoColor=white) ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white) ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?logo=postgresql&logoColor=white) ![Kafka](https://img.shields.io/badge/Kafka-231F20?logo=apachekafka&logoColor=white) ![Docker](https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=white)
+
 Both implementations pair a React portal with PostgreSQL transactional outboxes and Kafka workers. The Java edition consumes completion events in the API and delivers authenticated SSE notifications over one persistent browser subscription; the Go baseline polls for status. Concurrent submissions and duplicate event delivery are checked against PostgreSQL for one decision and audit trail. The recorded Java demonstration shows submission and worker recovery, and both implementations have CI tests and container security scans. The comparison documents the delivery differences; it makes no performance claim.
 
 | | what it is | where it lives |

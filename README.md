@@ -50,6 +50,20 @@ One OpenAPI contract, served by JVM and Python backends and consumed by two fron
 | gate | `R-8` | [tests/test_r08_the_demo_runs_on_a_bare_interpreter.py](https://github.com/malex4hire/abyss-polyglot/blob/main/tests/test_r08_the_demo_runs_on_a_bare_interpreter.py) |
 | artifact | `contract/openapi.yaml` | [contract/openapi.yaml](https://github.com/malex4hire/abyss-polyglot/blob/main/contract/openapi.yaml) |
 
+### [abyss-trade-workflow](https://github.com/malex4hire/abyss-trade-workflow)
+
+**One trade workflow in Go and Java, with durable events and live browser updates.**
+
+Both implementations pair a React portal with PostgreSQL transactional outboxes and Kafka workers. The Java edition consumes completion events in the API and delivers authenticated SSE notifications over one persistent browser subscription; the Go baseline polls for status. Concurrent submissions and duplicate event delivery are checked against PostgreSQL for one decision and audit trail. The recorded Java demonstration shows submission and worker recovery, and both implementations have CI tests and container security scans. The comparison documents the delivery differences; it makes no performance claim.
+
+| | what it is | where it lives |
+|---|---|---|
+| run | `./demo java` | [demo](https://github.com/malex4hire/abyss-trade-workflow/blob/main/demo) |
+| run | `./demo go` | [demo](https://github.com/malex4hire/abyss-trade-workflow/blob/main/demo) |
+| gate | `concurrentSubmitsAndDuplicateEventsProduceOneDecision` | [implementations/java/src/test/java/com/abyssapplied/trade/service/WorkflowIT.java](https://github.com/malex4hire/abyss-trade-workflow/blob/main/implementations/java/src/test/java/com/abyssapplied/trade/service/WorkflowIT.java) |
+| artifact | `docs/media/trade-workflow.gif` | [docs/media/trade-workflow.gif](https://github.com/malex4hire/abyss-trade-workflow/blob/main/docs/media/trade-workflow.gif) |
+| artifact | `docs/go-vs-java.md` | [docs/go-vs-java.md](https://github.com/malex4hire/abyss-trade-workflow/blob/main/docs/go-vs-java.md) |
+
 ### [abyss-independent-authority](https://github.com/malex4hire/abyss-independent-authority)
 
 **Four agent frameworks request the same capability. None can authorize itself.**

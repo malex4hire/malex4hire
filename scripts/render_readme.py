@@ -72,11 +72,14 @@ def card_markdown(name: str, card: dict) -> str:
         badges = []
         for technology in technologies:
             name = str(technology["name"])
-            label = quote(name, safe="").replace("-", "%2D")
-            color = quote(str(technology["color"]), safe="")
-            query = urlencode({"logo": technology["logo"], "logoColor": "white"})
+            badge_url = technology.get("url")
+            if not badge_url:
+                label = quote(name, safe="").replace("-", "%2D")
+                color = quote(str(technology["color"]), safe="")
+                query = urlencode({"logo": technology["logo"], "logoColor": "white"})
+                badge_url = f"https://img.shields.io/badge/{label}-{color}?{query}"
             alt = name.replace("[", "\\[").replace("]", "\\]")
-            badges.append(f"![{alt}](https://img.shields.io/badge/{label}-{color}?{query})")
+            badges.append(f"![{alt}]({badge_url})")
         out += [" ".join(badges), ""]
     out += [card["proves"].strip(), "", "| | what it is | where it lives |", "|---|---|---|"]
     for binding in card["bindings"]:

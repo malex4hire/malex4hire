@@ -31,3 +31,13 @@ def test_omitting_technology_metadata_preserves_the_card_format():
     }
     assert card_markdown("demo", card) == card_markdown("demo", {**card, "technologies": []})
     assert "shields.io" not in card_markdown("demo", card)
+
+
+def test_existing_repository_badge_urls_are_preserved():
+    url = "https://img.shields.io/badge/Google_ADK-2.9.2%2B-4285F4?logo=googlecloud&logoColor=white"
+    card = {
+        "proves": "Evidence.",
+        "bindings": [{"kind": "artifact", "value": "README.md", "path": "README.md"}],
+        "technologies": [{"name": "Google ADK", "url": url}],
+    }
+    assert f"![Google ADK]({url})" in card_markdown("demo", card)

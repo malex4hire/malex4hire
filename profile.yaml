@@ -84,6 +84,14 @@ cards:
         path: "contract/openapi.yaml"
 
   abyss-trade-workflow:
+    technologies:
+      - {name: Go, logo: go, color: "00ADD8"}
+      - {name: Java, logo: openjdk, color: "ED8B00"}
+      - {name: React, logo: react, color: "20232A"}
+      - {name: TypeScript, logo: typescript, color: "3178C6"}
+      - {name: PostgreSQL, logo: postgresql, color: "4169E1"}
+      - {name: Kafka, logo: apachekafka, color: "231F20"}
+      - {name: Docker, logo: docker, color: "2496ED"}
     line: "One trade workflow in Go and Java, with durable events and live browser updates."
     proves: >-
       Both implementations pair a React portal with PostgreSQL transactional outboxes

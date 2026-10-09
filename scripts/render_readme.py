@@ -19,6 +19,7 @@ from __future__ import annotations
 
 import sys
 from pathlib import Path
+from urllib.parse import quote, urlencode
 
 import yaml
 
@@ -66,6 +67,17 @@ def card_markdown(name: str, card: dict) -> str:
     out = [f"### [{name}]({url})", ""]
     if card.get("line"):
         out += [f"**{card['line'].strip()}**", ""]
+    technologies = card.get("technologies") or []
+    if technologies:
+        badges = []
+        for technology in technologies:
+            name = str(technology["name"])
+            label = quote(name, safe="").replace("-", "%2D")
+            color = quote(str(technology["color"]), safe="")
+            query = urlencode({"logo": technology["logo"], "logoColor": "white"})
+            alt = name.replace("[", "\\[").replace("]", "\\]")
+            badges.append(f"![{alt}](https://img.shields.io/badge/{label}-{color}?{query})")
+        out += [" ".join(badges), ""]
     out += [card["proves"].strip(), "", "| | what it is | where it lives |", "|---|---|---|"]
     for binding in card["bindings"]:
         path = binding["path"]

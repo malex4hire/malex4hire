@@ -17,6 +17,8 @@ Define it. Build it. Prove it. Operate it. The projects below demonstrate archit
 
 **A compromised agent attacks its own write boundary, and the misses are published too.**
 
+![Python](https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=white) ![SQLite](https://img.shields.io/badge/SQLite-003B57?logo=sqlite&logoColor=white)
+
 A hostile driver replaces the model and attempts every forbidden state change it can reach against an approval workflow; a deterministic gate at the write boundary refuses them and no forbidden mutation lands. The part usually left out is committed beside it: the cases the gate does NOT catch, generated from the same run rather than written up afterwards, with a test asserting the missed set is non-empty on the grounds that a gate with no published blind spot has not been probed hard enough.
 
 | | what it is | where it lives |
@@ -28,6 +30,8 @@ A hostile driver replaces the model and attempts every forbidden state change it
 ### [interview-eval-platform](https://github.com/malex4hire/interview-eval-platform)
 
 **A model decides something about a person, and the record of it is tamper-evident.**
+
+![Python](https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=white) ![FastAPI](https://img.shields.io/badge/FastAPI-009688?logo=fastapi&logoColor=white) ![SQLAlchemy](https://img.shields.io/badge/SQLAlchemy-D71F00?logo=sqlalchemy&logoColor=white) ![SQLite](https://img.shields.io/badge/SQLite-003B57?logo=sqlite&logoColor=white)
 
 An LLM scores interview answers against a rubric, and anything below a confidence threshold routes to a human rather than standing on its own. The model's verdict and the routed verdict are stored separately and nothing is overwritten. The audit log is hash-chained, and its negative tests drop the SQLite append-only triggers first, standing in for direct database access, before asserting the verifier still catches an edited payload, a deleted entry and a rewritten hash. Testing the verifier against a clean chain would have proved nothing; that is the whole difference.
 
@@ -41,6 +45,8 @@ An LLM scores interview answers against a rubric, and anything below a confidenc
 ### [abyss-polyglot](https://github.com/malex4hire/abyss-polyglot)
 
 **One contract. Several runtimes. One suite that names none of them.**
+
+![Java](https://img.shields.io/badge/Java-ED8B00?logo=openjdk&logoColor=white) ![Python](https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=white) ![Spring](https://img.shields.io/badge/Spring-6DB33F?logo=spring&logoColor=white) ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-6DB33F?logo=springboot&logoColor=white) ![Angular](https://img.shields.io/badge/Angular-DD0031?logo=angular&logoColor=white) ![React](https://img.shields.io/badge/React-20232A?logo=react&logoColor=white) ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white) ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?logo=postgresql&logoColor=white) ![Docker](https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=white) ![OpenAPI](https://img.shields.io/badge/OpenAPI-6BA539?logo=openapiinitiative&logoColor=white)
 
 One OpenAPI contract, served by JVM and Python backends and consumed by two frontend frameworks, with one test suite that runs unmodified against all of them and names none of them. Identity is read from the live classpath rather than from a label, so the stacks cannot be mislabelled and pass. It runs from a single command on a bare interpreter, with nothing installed.
 
@@ -70,6 +76,8 @@ Both implementations pair a React portal with PostgreSQL transactional outboxes 
 
 **Four agent frameworks request the same capability. None can authorize itself.**
 
+![Java 21](https://img.shields.io/badge/Java-21-ED8B00?logo=openjdk&logoColor=white) ![CrewAI](https://img.shields.io/badge/CrewAI-1.15-6C47FF) ![Semantic Kernel](https://img.shields.io/badge/Semantic_Kernel-1.44-5E5E5E?logo=microsoft) ![LangGraph](https://img.shields.io/badge/LangGraph-1.2-1C3C3C) ![LangChain](https://img.shields.io/badge/LangChain-1.6-1C3C3C)
+
 CrewAI, Semantic Kernel, LangGraph and LangChain each submit through their native execution model to one deterministic Java authority boundary. A valid request proceeds; missing evidence, an invented approval and the wrong capability are denied. The frameworks change. The authority does not.
 
 | | what it is | where it lives |
@@ -82,6 +90,8 @@ CrewAI, Semantic Kernel, LangGraph and LangChain each submit through their nativ
 
 **A Medicare Stars agent can use an LLM without surrendering evidence, authority or cost control.**
 
+![Python](https://img.shields.io/badge/Python-3.11-3776AB?logo=python&logoColor=white) ![Google ADK](https://img.shields.io/badge/Google_ADK-2.9.2%2B-4285F4?logo=googlecloud&logoColor=white) ![Vertex AI](https://img.shields.io/badge/Vertex_AI-Managed_API-4285F4?logo=googlecloud&logoColor=white) ![Gemini](https://img.shields.io/badge/Gemini-2.5_Flash-8E75B2?logo=googlegemini&logoColor=white) ![MCP SDK](https://img.shields.io/badge/MCP_SDK-%3E%3D1.12%2C%3C2-00A67E) ![FastMCP](https://img.shields.io/badge/FastMCP-SDK_server-7C3AED) ![BigQuery](https://img.shields.io/badge/BigQuery-Standard_SQL-669DF6?logo=googlebigquery&logoColor=white) ![Cloud Run](https://img.shields.io/badge/Cloud_Run-Private-4285F4?logo=googlecloud&logoColor=white) ![Cloud Build](https://img.shields.io/badge/Cloud_Build-CI%2FCD-4285F4?logo=googlecloud&logoColor=white) ![FastAPI](https://img.shields.io/badge/FastAPI-0.116%2B-009688?logo=fastapi&logoColor=white) ![OCI](https://img.shields.io/badge/Container-OCI-2496ED?logo=docker&logoColor=white) ![Trivy](https://img.shields.io/badge/Trivy-HIGH%2FCRITICAL_gate-1904DA?logo=aqua&logoColor=white)
+
 Google ADK orchestrates Vertex AI Gemini through an MCP/FastMCP tool boundary to analyze aggregate-only BigQuery evidence. Deterministic policy rejects PHI and unrelated tool use, evaluations gate releases, Trivy scans the OCI image, and the private Cloud Run deployment reports per-request token and estimated cost telemetry. The model reasons. It does not authorize itself.
 
 | | what it is | where it lives |
@@ -93,6 +103,8 @@ Google ADK orchestrates Vertex AI Gemini through an MCP/FastMCP tool boundary to
 ### [abyss-medallion](https://github.com/malex4hire/abyss-medallion)
 
 **Bad ERP-like data stays visible, and reconciliation cannot waive its release gate.**
+
+![Python](https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=white) ![SQLite](https://img.shields.io/badge/SQLite-003B57?logo=sqlite&logoColor=white)
 
 Synthetic SAP ECC-like extracts move through exact Bronze snapshots, validated Silver records and S/4HANA-oriented Gold staging. Whole-document validation quarantines imbalanced and invalid records, record lineage connects target keys to source rows, and gross debit and credit reconcile separately by company and currency. Any unresolved quarantine blocks staging release. A corrected extract passes while the rejected batch remains inspectable. This is a data engineering reference, not a claim of actual SAP migration experience.
 

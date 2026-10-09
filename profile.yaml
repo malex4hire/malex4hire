@@ -18,6 +18,9 @@ cards:
 # them: the renderer walks this mapping and the account is consulted only for the
 # SET of repositories, never for their sequence. To reorder the page, move a block.
   abyss-write-gate:
+    technologies:
+      - {"name": "Python", "url": "https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=white"}
+      - {"name": "SQLite", "url": "https://img.shields.io/badge/SQLite-003B57?logo=sqlite&logoColor=white"}
     line: "A compromised agent attacks its own write boundary, and the misses are published too."
     proves: >-
       A hostile driver replaces the model and attempts every forbidden state change it can
@@ -37,6 +40,11 @@ cards:
         value: "docs/KNOWN-MISSES.md"
         path: "docs/KNOWN-MISSES.md"
   interview-eval-platform:
+    technologies:
+      - {"name": "Python", "url": "https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=white"}
+      - {"name": "FastAPI", "url": "https://img.shields.io/badge/FastAPI-009688?logo=fastapi&logoColor=white"}
+      - {"name": "SQLAlchemy", "url": "https://img.shields.io/badge/SQLAlchemy-D71F00?logo=sqlalchemy&logoColor=white"}
+      - {"name": "SQLite", "url": "https://img.shields.io/badge/SQLite-003B57?logo=sqlite&logoColor=white"}
     line: "A model decides something about a person, and the record of it is tamper-evident."
     proves: >-
       An LLM scores interview answers against a rubric, and anything below a confidence
@@ -65,6 +73,17 @@ cards:
         path: "app/domain/hashing.py"
 
   abyss-polyglot:
+    technologies:
+      - {"name": "Java", "url": "https://img.shields.io/badge/Java-ED8B00?logo=openjdk&logoColor=white"}
+      - {"name": "Python", "url": "https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=white"}
+      - {"name": "Spring", "url": "https://img.shields.io/badge/Spring-6DB33F?logo=spring&logoColor=white"}
+      - {"name": "Spring Boot", "url": "https://img.shields.io/badge/Spring%20Boot-6DB33F?logo=springboot&logoColor=white"}
+      - {"name": "Angular", "url": "https://img.shields.io/badge/Angular-DD0031?logo=angular&logoColor=white"}
+      - {"name": "React", "url": "https://img.shields.io/badge/React-20232A?logo=react&logoColor=white"}
+      - {"name": "TypeScript", "url": "https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white"}
+      - {"name": "PostgreSQL", "url": "https://img.shields.io/badge/PostgreSQL-4169E1?logo=postgresql&logoColor=white"}
+      - {"name": "Docker", "url": "https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=white"}
+      - {"name": "OpenAPI", "url": "https://img.shields.io/badge/OpenAPI-6BA539?logo=openapiinitiative&logoColor=white"}
     line: "One contract. Several runtimes. One suite that names none of them."
     proves: >-
       One OpenAPI contract, served by JVM and Python backends and consumed by two
@@ -122,6 +141,12 @@ cards:
         path: "docs/go-vs-java.md"
 
   abyss-independent-authority:
+    technologies:
+      - {"name": "Java 21", "url": "https://img.shields.io/badge/Java-21-ED8B00?logo=openjdk&logoColor=white"}
+      - {"name": "CrewAI", "url": "https://img.shields.io/badge/CrewAI-1.15-6C47FF"}
+      - {"name": "Semantic Kernel", "url": "https://img.shields.io/badge/Semantic_Kernel-1.44-5E5E5E?logo=microsoft"}
+      - {"name": "LangGraph", "url": "https://img.shields.io/badge/LangGraph-1.2-1C3C3C"}
+      - {"name": "LangChain", "url": "https://img.shields.io/badge/LangChain-1.6-1C3C3C"}
     line: "Four agent frameworks request the same capability. None can authorize itself."
     proves: >-
       CrewAI, Semantic Kernel, LangGraph and LangChain each submit through their native
@@ -141,6 +166,19 @@ cards:
         path: "run_demo.py"
 
   abyss-medicare-stars-agent:
+    technologies:
+      - {"name": "Python", "url": "https://img.shields.io/badge/Python-3.11-3776AB?logo=python&logoColor=white"}
+      - {"name": "Google ADK", "url": "https://img.shields.io/badge/Google_ADK-2.9.2%2B-4285F4?logo=googlecloud&logoColor=white"}
+      - {"name": "Vertex AI", "url": "https://img.shields.io/badge/Vertex_AI-Managed_API-4285F4?logo=googlecloud&logoColor=white"}
+      - {"name": "Gemini", "url": "https://img.shields.io/badge/Gemini-2.5_Flash-8E75B2?logo=googlegemini&logoColor=white"}
+      - {"name": "MCP SDK", "url": "https://img.shields.io/badge/MCP_SDK-%3E%3D1.12%2C%3C2-00A67E"}
+      - {"name": "FastMCP", "url": "https://img.shields.io/badge/FastMCP-SDK_server-7C3AED"}
+      - {"name": "BigQuery", "url": "https://img.shields.io/badge/BigQuery-Standard_SQL-669DF6?logo=googlebigquery&logoColor=white"}
+      - {"name": "Cloud Run", "url": "https://img.shields.io/badge/Cloud_Run-Private-4285F4?logo=googlecloud&logoColor=white"}
+      - {"name": "Cloud Build", "url": "https://img.shields.io/badge/Cloud_Build-CI%2FCD-4285F4?logo=googlecloud&logoColor=white"}
+      - {"name": "FastAPI", "url": "https://img.shields.io/badge/FastAPI-0.116%2B-009688?logo=fastapi&logoColor=white"}
+      - {"name": "OCI", "url": "https://img.shields.io/badge/Container-OCI-2496ED?logo=docker&logoColor=white"}
+      - {"name": "Trivy", "url": "https://img.shields.io/badge/Trivy-HIGH%2FCRITICAL_gate-1904DA?logo=aqua&logoColor=white"}
     line: "A Medicare Stars agent can use an LLM without surrendering evidence, authority or cost control."
     proves: >-
       Google ADK orchestrates Vertex AI Gemini through an MCP/FastMCP tool boundary
@@ -162,6 +200,9 @@ cards:
         path: "observability/llm_cost.py"
 
   abyss-medallion:
+    technologies:
+      - {"name": "Python", "url": "https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=white"}
+      - {"name": "SQLite", "url": "https://img.shields.io/badge/SQLite-003B57?logo=sqlite&logoColor=white"}
     line: "Bad ERP-like data stays visible, and reconciliation cannot waive its release gate."
     proves: >-
       Synthetic SAP ECC-like extracts move through exact Bronze snapshots, validated

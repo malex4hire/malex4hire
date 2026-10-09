@@ -13,6 +13,78 @@ Define it. Build it. Prove it. Operate it. The projects below demonstrate archit
 
 <!-- cards: generated from profile.yaml, one per public repository -->
 
+### [abyss-trade-workflow](https://github.com/malex4hire/abyss-trade-workflow)
+
+**One trade workflow in Go and Java, with durable events and live browser updates.**
+
+![Go](https://img.shields.io/badge/Go-00ADD8?logo=go&logoColor=white) ![Java](https://img.shields.io/badge/Java-ED8B00?logo=openjdk&logoColor=white) ![React](https://img.shields.io/badge/React-20232A?logo=react&logoColor=white) ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white) ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?logo=postgresql&logoColor=white) ![Kafka](https://img.shields.io/badge/Kafka-231F20?logo=apachekafka&logoColor=white) ![Docker](https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=white)
+
+Both implementations pair a React portal with PostgreSQL transactional outboxes and Kafka workers. The Java edition consumes completion events in the API and delivers authenticated SSE notifications over one persistent browser subscription; the Go baseline polls for status. Concurrent submissions and duplicate event delivery are checked against PostgreSQL for one decision and audit trail. The recorded Java demonstration shows submission and worker recovery, and both implementations have CI tests and container security scans. The comparison documents the delivery differences; it makes no performance claim.
+
+| | what it is | where it lives |
+|---|---|---|
+| run | `./demo java` | [demo](https://github.com/malex4hire/abyss-trade-workflow/blob/main/demo) |
+| run | `./demo go` | [demo](https://github.com/malex4hire/abyss-trade-workflow/blob/main/demo) |
+| gate | `concurrentSubmitsAndDuplicateEventsProduceOneDecision` | [implementations/java/src/test/java/com/abyssapplied/trade/service/WorkflowIT.java](https://github.com/malex4hire/abyss-trade-workflow/blob/main/implementations/java/src/test/java/com/abyssapplied/trade/service/WorkflowIT.java) |
+| artifact | `docs/media/trade-workflow.gif` | [docs/media/trade-workflow.gif](https://github.com/malex4hire/abyss-trade-workflow/blob/main/docs/media/trade-workflow.gif) |
+| artifact | `docs/go-vs-java.md` | [docs/go-vs-java.md](https://github.com/malex4hire/abyss-trade-workflow/blob/main/docs/go-vs-java.md) |
+
+### [abyss-medicare-stars-agent](https://github.com/malex4hire/abyss-medicare-stars-agent)
+
+**A Medicare Stars agent can use an LLM without surrendering evidence, authority or cost control.**
+
+![Python](https://img.shields.io/badge/Python-3.11-3776AB?logo=python&logoColor=white) ![Google ADK](https://img.shields.io/badge/Google_ADK-2.9.2%2B-4285F4?logo=googlecloud&logoColor=white) ![Vertex AI](https://img.shields.io/badge/Vertex_AI-Managed_API-4285F4?logo=googlecloud&logoColor=white) ![Gemini](https://img.shields.io/badge/Gemini-2.5_Flash-8E75B2?logo=googlegemini&logoColor=white) ![MCP SDK](https://img.shields.io/badge/MCP_SDK-%3E%3D1.12%2C%3C2-00A67E) ![FastMCP](https://img.shields.io/badge/FastMCP-SDK_server-7C3AED) ![BigQuery](https://img.shields.io/badge/BigQuery-Standard_SQL-669DF6?logo=googlebigquery&logoColor=white) ![Cloud Run](https://img.shields.io/badge/Cloud_Run-Private-4285F4?logo=googlecloud&logoColor=white) ![Cloud Build](https://img.shields.io/badge/Cloud_Build-CI%2FCD-4285F4?logo=googlecloud&logoColor=white) ![FastAPI](https://img.shields.io/badge/FastAPI-0.116%2B-009688?logo=fastapi&logoColor=white) ![OCI](https://img.shields.io/badge/Container-OCI-2496ED?logo=docker&logoColor=white) ![Trivy](https://img.shields.io/badge/Trivy-HIGH%2FCRITICAL_gate-1904DA?logo=aqua&logoColor=white)
+
+Google ADK orchestrates Vertex AI Gemini through an MCP/FastMCP tool boundary to analyze aggregate-only BigQuery evidence. Deterministic policy rejects PHI and unrelated tool use, evaluations gate releases, Trivy scans the OCI image, and the private Cloud Run deployment reports per-request token and estimated cost telemetry. The model reasons. It does not authorize itself.
+
+| | what it is | where it lives |
+|---|---|---|
+| run | `./demo --local` | [demo](https://github.com/malex4hire/abyss-medicare-stars-agent/blob/main/demo) |
+| gate | `./evaluate` | [evaluate](https://github.com/malex4hire/abyss-medicare-stars-agent/blob/main/evaluate) |
+| artifact | `observability/llm_cost.py` | [observability/llm_cost.py](https://github.com/malex4hire/abyss-medicare-stars-agent/blob/main/observability/llm_cost.py) |
+
+### [abyss-independent-authority](https://github.com/malex4hire/abyss-independent-authority)
+
+**Four agent frameworks request the same capability. None can authorize itself.**
+
+![Java 21](https://img.shields.io/badge/Java-21-ED8B00?logo=openjdk&logoColor=white) ![CrewAI](https://img.shields.io/badge/CrewAI-1.15-6C47FF) ![Semantic Kernel](https://img.shields.io/badge/Semantic_Kernel-1.44-5E5E5E?logo=microsoft) ![LangGraph](https://img.shields.io/badge/LangGraph-1.2-1C3C3C) ![LangChain](https://img.shields.io/badge/LangChain-1.6-1C3C3C)
+
+CrewAI, Semantic Kernel, LangGraph and LangChain each submit through their native execution model to one deterministic Java authority boundary. A valid request proceeds; missing evidence, an invented approval and the wrong capability are denied. The frameworks change. The authority does not.
+
+| | what it is | where it lives |
+|---|---|---|
+| run | `./demo` | [demo](https://github.com/malex4hire/abyss-independent-authority/blob/main/demo) |
+| gate | `CAPABILITY_NOT_GRANTED` | [java/com/abyss/authority/AuthorityDemo.java](https://github.com/malex4hire/abyss-independent-authority/blob/main/java/com/abyss/authority/AuthorityDemo.java) |
+| artifact | `run_demo.py` | [run_demo.py](https://github.com/malex4hire/abyss-independent-authority/blob/main/run_demo.py) |
+
+### [abyss-polyglot](https://github.com/malex4hire/abyss-polyglot)
+
+**One contract. Several runtimes. One suite that names none of them.**
+
+![Java](https://img.shields.io/badge/Java-ED8B00?logo=openjdk&logoColor=white) ![Python](https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=white) ![Spring](https://img.shields.io/badge/Spring-6DB33F?logo=spring&logoColor=white) ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-6DB33F?logo=springboot&logoColor=white) ![Angular](https://img.shields.io/badge/Angular-DD0031?logo=angular&logoColor=white) ![React](https://img.shields.io/badge/React-20232A?logo=react&logoColor=white) ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white) ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?logo=postgresql&logoColor=white) ![Docker](https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=white) ![OpenAPI](https://img.shields.io/badge/OpenAPI-6BA539?logo=openapiinitiative&logoColor=white)
+
+One OpenAPI contract, served by JVM and Python backends and consumed by two frontend frameworks, with one test suite that runs unmodified against all of them and names none of them. Identity is read from the live classpath rather than from a label, so the stacks cannot be mislabelled and pass. It runs from a single command on a bare interpreter, with nothing installed.
+
+| | what it is | where it lives |
+|---|---|---|
+| run | `python3 demo.py` | [demo.py](https://github.com/malex4hire/abyss-polyglot/blob/main/demo.py) |
+| gate | `R-8` | [tests/test_r08_the_demo_runs_on_a_bare_interpreter.py](https://github.com/malex4hire/abyss-polyglot/blob/main/tests/test_r08_the_demo_runs_on_a_bare_interpreter.py) |
+| artifact | `contract/openapi.yaml` | [contract/openapi.yaml](https://github.com/malex4hire/abyss-polyglot/blob/main/contract/openapi.yaml) |
+
+### [abyss-medallion](https://github.com/malex4hire/abyss-medallion)
+
+**Bad ERP-like data stays visible, and reconciliation cannot waive its release gate.**
+
+![Python](https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=white) ![SQLite](https://img.shields.io/badge/SQLite-003B57?logo=sqlite&logoColor=white)
+
+Synthetic SAP ECC-like extracts move through exact Bronze snapshots, validated Silver records and S/4HANA-oriented Gold staging. Whole-document validation quarantines imbalanced and invalid records, record lineage connects target keys to source rows, and gross debit and credit reconcile separately by company and currency. Any unresolved quarantine blocks staging release. A corrected extract passes while the rejected batch remains inspectable. This is a data engineering reference, not a claim of actual SAP migration experience.
+
+| | what it is | where it lives |
+|---|---|---|
+| run | `./demo` | [demo](https://github.com/malex4hire/abyss-medallion/blob/main/demo) |
+| gate | `test_defective_batch_blocks_release_and_conserves_every_row` | [tests/test_pipeline.py](https://github.com/malex4hire/abyss-medallion/blob/main/tests/test_pipeline.py) |
+| artifact | `docs/CONTROL-REGISTER.md` | [docs/CONTROL-REGISTER.md](https://github.com/malex4hire/abyss-medallion/blob/main/docs/CONTROL-REGISTER.md) |
+
 ### [abyss-write-gate](https://github.com/malex4hire/abyss-write-gate)
 
 **A compromised agent attacks its own write boundary, and the misses are published too.**
@@ -41,78 +113,6 @@ An LLM scores interview answers against a rubric, and anything below a confidenc
 | gate | `test_verifier_detects_an_edited_payload` | [tests/test_audit_chain.py](https://github.com/malex4hire/interview-eval-platform/blob/main/tests/test_audit_chain.py) |
 | gate | `test_ambiguous_answer_routes_to_human_review` | [tests/test_evaluation.py](https://github.com/malex4hire/interview-eval-platform/blob/main/tests/test_evaluation.py) |
 | artifact | `app/domain/hashing.py` | [app/domain/hashing.py](https://github.com/malex4hire/interview-eval-platform/blob/main/app/domain/hashing.py) |
-
-### [abyss-polyglot](https://github.com/malex4hire/abyss-polyglot)
-
-**One contract. Several runtimes. One suite that names none of them.**
-
-![Java](https://img.shields.io/badge/Java-ED8B00?logo=openjdk&logoColor=white) ![Python](https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=white) ![Spring](https://img.shields.io/badge/Spring-6DB33F?logo=spring&logoColor=white) ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-6DB33F?logo=springboot&logoColor=white) ![Angular](https://img.shields.io/badge/Angular-DD0031?logo=angular&logoColor=white) ![React](https://img.shields.io/badge/React-20232A?logo=react&logoColor=white) ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white) ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?logo=postgresql&logoColor=white) ![Docker](https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=white) ![OpenAPI](https://img.shields.io/badge/OpenAPI-6BA539?logo=openapiinitiative&logoColor=white)
-
-One OpenAPI contract, served by JVM and Python backends and consumed by two frontend frameworks, with one test suite that runs unmodified against all of them and names none of them. Identity is read from the live classpath rather than from a label, so the stacks cannot be mislabelled and pass. It runs from a single command on a bare interpreter, with nothing installed.
-
-| | what it is | where it lives |
-|---|---|---|
-| run | `python3 demo.py` | [demo.py](https://github.com/malex4hire/abyss-polyglot/blob/main/demo.py) |
-| gate | `R-8` | [tests/test_r08_the_demo_runs_on_a_bare_interpreter.py](https://github.com/malex4hire/abyss-polyglot/blob/main/tests/test_r08_the_demo_runs_on_a_bare_interpreter.py) |
-| artifact | `contract/openapi.yaml` | [contract/openapi.yaml](https://github.com/malex4hire/abyss-polyglot/blob/main/contract/openapi.yaml) |
-
-### [abyss-trade-workflow](https://github.com/malex4hire/abyss-trade-workflow)
-
-**One trade workflow in Go and Java, with durable events and live browser updates.**
-
-![Go](https://img.shields.io/badge/Go-00ADD8?logo=go&logoColor=white) ![Java](https://img.shields.io/badge/Java-ED8B00?logo=openjdk&logoColor=white) ![React](https://img.shields.io/badge/React-20232A?logo=react&logoColor=white) ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white) ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?logo=postgresql&logoColor=white) ![Kafka](https://img.shields.io/badge/Kafka-231F20?logo=apachekafka&logoColor=white) ![Docker](https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=white)
-
-Both implementations pair a React portal with PostgreSQL transactional outboxes and Kafka workers. The Java edition consumes completion events in the API and delivers authenticated SSE notifications over one persistent browser subscription; the Go baseline polls for status. Concurrent submissions and duplicate event delivery are checked against PostgreSQL for one decision and audit trail. The recorded Java demonstration shows submission and worker recovery, and both implementations have CI tests and container security scans. The comparison documents the delivery differences; it makes no performance claim.
-
-| | what it is | where it lives |
-|---|---|---|
-| run | `./demo java` | [demo](https://github.com/malex4hire/abyss-trade-workflow/blob/main/demo) |
-| run | `./demo go` | [demo](https://github.com/malex4hire/abyss-trade-workflow/blob/main/demo) |
-| gate | `concurrentSubmitsAndDuplicateEventsProduceOneDecision` | [implementations/java/src/test/java/com/abyssapplied/trade/service/WorkflowIT.java](https://github.com/malex4hire/abyss-trade-workflow/blob/main/implementations/java/src/test/java/com/abyssapplied/trade/service/WorkflowIT.java) |
-| artifact | `docs/media/trade-workflow.gif` | [docs/media/trade-workflow.gif](https://github.com/malex4hire/abyss-trade-workflow/blob/main/docs/media/trade-workflow.gif) |
-| artifact | `docs/go-vs-java.md` | [docs/go-vs-java.md](https://github.com/malex4hire/abyss-trade-workflow/blob/main/docs/go-vs-java.md) |
-
-### [abyss-independent-authority](https://github.com/malex4hire/abyss-independent-authority)
-
-**Four agent frameworks request the same capability. None can authorize itself.**
-
-![Java 21](https://img.shields.io/badge/Java-21-ED8B00?logo=openjdk&logoColor=white) ![CrewAI](https://img.shields.io/badge/CrewAI-1.15-6C47FF) ![Semantic Kernel](https://img.shields.io/badge/Semantic_Kernel-1.44-5E5E5E?logo=microsoft) ![LangGraph](https://img.shields.io/badge/LangGraph-1.2-1C3C3C) ![LangChain](https://img.shields.io/badge/LangChain-1.6-1C3C3C)
-
-CrewAI, Semantic Kernel, LangGraph and LangChain each submit through their native execution model to one deterministic Java authority boundary. A valid request proceeds; missing evidence, an invented approval and the wrong capability are denied. The frameworks change. The authority does not.
-
-| | what it is | where it lives |
-|---|---|---|
-| run | `./demo` | [demo](https://github.com/malex4hire/abyss-independent-authority/blob/main/demo) |
-| gate | `CAPABILITY_NOT_GRANTED` | [java/com/abyss/authority/AuthorityDemo.java](https://github.com/malex4hire/abyss-independent-authority/blob/main/java/com/abyss/authority/AuthorityDemo.java) |
-| artifact | `run_demo.py` | [run_demo.py](https://github.com/malex4hire/abyss-independent-authority/blob/main/run_demo.py) |
-
-### [abyss-medicare-stars-agent](https://github.com/malex4hire/abyss-medicare-stars-agent)
-
-**A Medicare Stars agent can use an LLM without surrendering evidence, authority or cost control.**
-
-![Python](https://img.shields.io/badge/Python-3.11-3776AB?logo=python&logoColor=white) ![Google ADK](https://img.shields.io/badge/Google_ADK-2.9.2%2B-4285F4?logo=googlecloud&logoColor=white) ![Vertex AI](https://img.shields.io/badge/Vertex_AI-Managed_API-4285F4?logo=googlecloud&logoColor=white) ![Gemini](https://img.shields.io/badge/Gemini-2.5_Flash-8E75B2?logo=googlegemini&logoColor=white) ![MCP SDK](https://img.shields.io/badge/MCP_SDK-%3E%3D1.12%2C%3C2-00A67E) ![FastMCP](https://img.shields.io/badge/FastMCP-SDK_server-7C3AED) ![BigQuery](https://img.shields.io/badge/BigQuery-Standard_SQL-669DF6?logo=googlebigquery&logoColor=white) ![Cloud Run](https://img.shields.io/badge/Cloud_Run-Private-4285F4?logo=googlecloud&logoColor=white) ![Cloud Build](https://img.shields.io/badge/Cloud_Build-CI%2FCD-4285F4?logo=googlecloud&logoColor=white) ![FastAPI](https://img.shields.io/badge/FastAPI-0.116%2B-009688?logo=fastapi&logoColor=white) ![OCI](https://img.shields.io/badge/Container-OCI-2496ED?logo=docker&logoColor=white) ![Trivy](https://img.shields.io/badge/Trivy-HIGH%2FCRITICAL_gate-1904DA?logo=aqua&logoColor=white)
-
-Google ADK orchestrates Vertex AI Gemini through an MCP/FastMCP tool boundary to analyze aggregate-only BigQuery evidence. Deterministic policy rejects PHI and unrelated tool use, evaluations gate releases, Trivy scans the OCI image, and the private Cloud Run deployment reports per-request token and estimated cost telemetry. The model reasons. It does not authorize itself.
-
-| | what it is | where it lives |
-|---|---|---|
-| run | `./demo --local` | [demo](https://github.com/malex4hire/abyss-medicare-stars-agent/blob/main/demo) |
-| gate | `./evaluate` | [evaluate](https://github.com/malex4hire/abyss-medicare-stars-agent/blob/main/evaluate) |
-| artifact | `observability/llm_cost.py` | [observability/llm_cost.py](https://github.com/malex4hire/abyss-medicare-stars-agent/blob/main/observability/llm_cost.py) |
-
-### [abyss-medallion](https://github.com/malex4hire/abyss-medallion)
-
-**Bad ERP-like data stays visible, and reconciliation cannot waive its release gate.**
-
-![Python](https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=white) ![SQLite](https://img.shields.io/badge/SQLite-003B57?logo=sqlite&logoColor=white)
-
-Synthetic SAP ECC-like extracts move through exact Bronze snapshots, validated Silver records and S/4HANA-oriented Gold staging. Whole-document validation quarantines imbalanced and invalid records, record lineage connects target keys to source rows, and gross debit and credit reconcile separately by company and currency. Any unresolved quarantine blocks staging release. A corrected extract passes while the rejected batch remains inspectable. This is a data engineering reference, not a claim of actual SAP migration experience.
-
-| | what it is | where it lives |
-|---|---|---|
-| run | `./demo` | [demo](https://github.com/malex4hire/abyss-medallion/blob/main/demo) |
-| gate | `test_defective_batch_blocks_release_and_conserves_every_row` | [tests/test_pipeline.py](https://github.com/malex4hire/abyss-medallion/blob/main/tests/test_pipeline.py) |
-| artifact | `docs/CONTROL-REGISTER.md` | [docs/CONTROL-REGISTER.md](https://github.com/malex4hire/abyss-medallion/blob/main/docs/CONTROL-REGISTER.md) |
 
 <!-- /cards -->
 
